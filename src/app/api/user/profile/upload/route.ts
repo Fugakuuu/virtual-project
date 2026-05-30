@@ -1,8 +1,7 @@
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
 import { v4 as uuidv4 } from "uuid";
+import { createClient } from "@supabase/supabase-js";
 
 export async function POST(request: Request) {
   try {
@@ -18,21 +17,40 @@ export async function POST(request: Request) {
       return new NextResponse("Missing file", { status: 400 });
     }
 
-    // Save File
+    // Convert to buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     const fileExtension = file.name.split(".").pop();
     const fileName = `avatar-${uuidv4()}.${fileExtension}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "avatars");
     
-    // Ensure dir exists
-    await fs.mkdir(uploadDir, { recursive: true });
+    // Initialize Supabase Admin Client
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
     
-    const filePath = path.join(uploadDir, fileName);
-    await fs.writeFile(filePath, buffer);
+    if (!supabaseUrl || !supabaseServiceKey) {
+      throw new Error("Supabase credentials not found in environment variables");
+    }
 
-    const publicPath = `/uploads/avatars/${fileName}`;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(fileName, buffer, {
+        contentType: file.type,
+      });
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    // Get public URL
+    const { data: publicUrlData } = supabase.storage
+      .from('avatars')
+      .getPublicUrl(fileName);
+
+    const publicPath = publicUrlData.publicUrl;
 
     return NextResponse.json({ url: publicPath });
   } catch (error) {
