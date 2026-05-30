@@ -1,0 +1,93 @@
+datasource db {
+  provider = "mysql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/lib/generated"
+}
+
+model User {
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime? @map("email_verified")
+  image            String?
+  overlayToken     String    @unique @default(uuid()) @map("overlay_token")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  password         String?
+  securityQuestion String?   @map("security_question")
+  securityAnswer   String?   @map("security_answer")
+  accounts         Account[]
+  sessions         Session[]
+  assets           Asset[]
+
+  @@map("user")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("account")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_token")
+}
+
+enum AssetType {
+  IMAGE
+  AUDIO
+  VIDEO
+  GIF
+}
+
+model Asset {
+  id            String    @id @default(cuid())
+  name          String
+  type          AssetType
+  path          String
+  scale         Float     @default(1.0)
+  duration      Int?      @default(5)
+  volume        Float     @default(1.0)
+  order         Int       @default(0)
+  exitAnimation String    @default("fade") @map("exit_animation")
+  chromaKey     Boolean   @default(false) @map("chroma_key")
+  chromaColor   String    @default("#00ff00") @map("chroma_color")
+  userId        String    @map("user_id")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@map("asset")
+}

@@ -1,0 +1,83 @@
+.feature-cards-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .feature-cards-container {
+    flex-wrap: wrap;
+  }
+}
+
+.feature-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: 40px;
+  border-radius: 30px;
+  color: rgb(0, 0, 0);
+  cursor: default;
+  flex: 2;
+  min-width: 300px;
+  overflow: hidden;
+}
+
+/* Light Neumorphic Cards (tactile & real-time) */
+.feature-card.tactile,
+.feature-card.real-time {
+  box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #bebebe;
+}
+
+
+
+/* Dark Green Center Card */
+.feature-card.edge {
+  background: linear-gradient(to bottom, #026b4d, #07945e);
+  color: #000000;
+  box-shadow: 15px 15px 30px rgba(2, 80, 57, 0.4), -15px -15px 30px rgba(7, 180, 110, 0.15);
+  border: none;
+}
+
+.feature-card.edge h3 {
+  color: #ffffff;
+}
+
+.feature-card.edge p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.feature-card .icon-wrapper {
+  margin-bottom: 32px;
+
+}
+
+.feature-card h3 {
+  font-family: var(--font-archivo);
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.feature-card p {
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.feature-card .tech-id {
+  position: absolute;
+  bottom: 24px;
+  right: 32px;
+  font-family: var(--font-mono);;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  opacity: 0.3;
+}
