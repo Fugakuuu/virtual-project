@@ -4,18 +4,18 @@
 
 ---
 
-## ✨ Fitur Utama
+##  Fitur Utama
 
-- **🚀 Pemicu Real-time**: Menggunakan teknologi **Socket.io** untuk memastikan aset visual dan suara muncul seketika tanpa jeda.
-- **📁 Dukungan Multi-Aset**: Kelola berbagai jenis aset mulai dari **Gambar, GIF, Video, hingga Audio** (Soundboard).
-- **🎨 Integrasi OBS Overlay**: Cukup masukkan URL unik ke dalam *Browser Source* di OBS, dan semua aset akan sinkron secara otomatis.
-- **🖱️ Manajemen Drag & Drop**: Atur urutan tombol deck Anda dengan mudah menggunakan antarmuka seret-dan-lepas yang intuitif.
-- **⚙️ Konfigurasi Aset Kustom**: Atur skala, durasi, volume, hingga animasi keluar untuk setiap aset secara individual.
-- **🔒 Autentikasi Aman**: Didukung oleh NextAuth.js untuk memastikan deck dan aset Anda tetap pribadi.
+- **Pemicu Real-time**: Menggunakan teknologi **Socket.io** untuk memastikan aset visual dan suara muncul seketika tanpa jeda.
+- **Dukungan Multi-Aset**: Kelola berbagai jenis aset mulai dari **Gambar, GIF, Video, hingga Audio** (Soundboard).
+- **Integrasi OBS Overlay**: Cukup masukkan URL unik ke dalam *Browser Source* di OBS, dan semua aset akan sinkron secara otomatis.
+- **Manajemen Drag & Drop**: Atur urutan tombol deck Anda dengan mudah menggunakan antarmuka seret-dan-lepas yang intuitif.
+- **Konfigurasi Aset Kustom**: Atur skala, durasi, volume, hingga animasi keluar untuk setiap aset secara individual.
+- **Autentikasi Aman**: Didukung oleh NextAuth.js untuk memastikan deck dan aset Anda tetap pribadi.
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+## Teknologi yang Digunakan
 
 - **Core**: [Next.js 15+](https://nextjs.org/) (App Router)
 - **Real-time**: [Socket.io](https://socket.io/)
@@ -26,7 +26,7 @@
 
 ---
 
-## 🚀 Memulai (Getting Started)
+## Memulai (Getting Started)
 
 ### Prasyarat
 - Node.js 20+
@@ -73,14 +73,14 @@
 
 ---
 
-## 🏗️ Arsitektur & Database
+## Arsitektur & Database
 
 Untuk informasi teknis lebih mendalam mengenai skema database, diagram ERD, dan alur proses sistem, silakan lihat dokumen berikut:
 👉 [**Arsitektur Sistem & Desain Database**](file:///C:/Users/ASUS/.gemini/antigravity/brain/9f49ace4-643d-4da6-9d71-2ba83a3eeb31/database_design.md)
 
 ---
 
-## 📱 Cara Penggunaan
+## Cara Penggunaan
 
 1. **Login** ke dashboard.
 2. **Unggah aset** multimedia Anda.
