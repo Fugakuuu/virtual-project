@@ -1,16 +1,18 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { 
-  User, Camera, Copy, Check, Mail, Terminal, 
+import {
+  User, Camera, Copy, Check, Mail, Terminal,
   Shield, Globe, Loader2, ShieldCheck,
   Home as HomeIcon,
   Zap as ZapIcon,
-  LogOutIcon
+  LogOutIcon,
+  X
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Dock from "@/components/ui/Dock";
+import {OTPInput} from "@/components/ui/OTPInput";
 import { signOut } from "next-auth/react";
 
 interface ProfileClientProps {
@@ -21,6 +23,7 @@ interface ProfileClientProps {
     emailVerified?: Date | null;
     image?: string | null;
     overlayToken?: string | null;
+    isOAuth?: boolean;
   };
 }
 
@@ -37,10 +40,11 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Email verification state
-  const [isVerified, setIsVerified] = useState(!!user.emailVerified);
+  const [isVerified, setIsVerified] = useState(!!user.emailVerified || !!user.isOAuth);
   const [verifying, setVerifying] = useState(false);
   const [otpStep, setOtpStep] = useState(false);
   const [otpCode, setOtpCode] = useState("");
+  const [resendTimer, setResendTimer] = useState(0);
 
   const showNotification = (message: string, type: 'success' | 'error') => {
     setNotification({ message, type });
@@ -171,16 +175,16 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
   const handleVerifyOtp = async () => {
     if (!user.email || !otpCode) return;
     setVerifying(true);
-    
+
     try {
       const res = await fetch("/api/user/profile/verify-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: user.email, otp: otpCode }),
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) {
         showNotification(data.error || "Invalid code", "error");
       } else {
@@ -190,6 +194,43 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
       }
     } catch (err) {
       showNotification("Failed to verify code", "error");
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (!user.email) return;
+    setVerifying(true);
+
+    try {
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showNotification(data.error || "Failed to send code", "error");
+      } else {
+        // Start 60-second timer
+        setResendTimer(60);
+        const timer = setInterval(() => {
+          setResendTimer(prev => {
+            if (prev <= 1) {
+              clearInterval(timer);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+
+        showNotification("New verification code sent", "success");
+      }
+    } catch (err) {
+      showNotification("Failed to send code", "error");
     } finally {
       setVerifying(false);
     }
@@ -271,6 +312,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                 </div>
               </div>
 
+
               {/* Email Field (Read-only) */}
               <div className="space-y-3">
                 <label className="font-mono text-[14px] font-medium uppercase tracking-[2px] text-[#5c6c75] flex items-center gap-2">
@@ -285,37 +327,90 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                       <ShieldCheck size={12} className="text-[#00ed64]" />
                       <span className="font-mono text-[9px] font-semibold text-[#00ed64] uppercase tracking-[2px]">Verified</span>
                     </div>
-                  ) : otpStep ? (
-                    <div className="ml-auto flex items-center gap-2">
-                      <input 
-                        type="text" 
-                        maxLength={6}
-                        value={otpCode}
-                        onChange={(e) => setOtpCode(e.target.value.replace(/[^0-9]/g, ''))}
-                        placeholder="6-digit code" 
-                        className="w-28 h-8 px-3 bg-[#1c2d38] border border-[#3d4f58] rounded text-xs font-mono text-[#e8edeb] focus:outline-none focus:border-[#00ed64]/50"
-                      />
-                      <button 
-                        onClick={handleVerifyOtp}
-                        disabled={verifying || otpCode.length !== 6}
-                        className="px-3 py-1.5 bg-[#00ed64] text-[#001e2b] rounded text-[10px] font-bold uppercase tracking-[1px] hover:bg-[#00c854] disabled:opacity-50 transition-colors"
-                      >
-                        {verifying ? '...' : 'Verify'}
-                      </button>
-                    </div>
                   ) : (
-                    <button 
+                    <button
                       onClick={handleSendVerification}
-                      disabled={verifying}
-                      className="ml-auto px-4 py-1.5 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2 hover:bg-[#253945] transition-colors"
+                      disabled={verifying || otpStep}
+                      className="ml-auto px-4 py-1.5 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2 hover:bg-[#253945] transition-colors disabled:opacity-50"
                     >
+                      {verifying && !otpStep ? <Loader2 size={12} className="animate-spin text-[#00ed64]" /> : <Shield size={12} className="text-[#5c6c75]" />}
                       <span className="font-mono text-[9px] font-semibold text-white uppercase tracking-[2px]">
-                        {verifying ? 'Sending...' : 'Verify Email'}
+                        {verifying && !otpStep ? 'Sending...' : 'Verify Email'}
                       </span>
                     </button>
                   )}
                 </div>
               </div>
+
+              {/* OTP Verification Form — separate card below email */}
+              <AnimatePresence>
+                {otpStep && !isVerified && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                    animate={{ opacity: 1, height: "auto", marginTop: 8 }}
+                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="p-6 bg-[#001e2b] border border-[#3d4f58] rounded-xl relative">
+                      <div className="absolute top-0 right-0 w-48 h-48 bg-[#00ed64]/5 blur-[80px] pointer-events-none" />
+
+                      {/* Close */}
+                      <button
+                        onClick={() => { setOtpStep(false); setOtpCode(""); }}
+                        className="absolute top-4 right-4 text-[#5c6c75] hover:text-white p-1.5 rounded-full hover:bg-[#1c2d38] transition-all"
+                      >
+                        <X size={14} />
+                      </button>
+
+                      <div className="relative z-10 space-y-5">
+                        {/* Header */}
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-xl bg-[#00ed64]/10 border border-[#00ed64]/20 flex items-center justify-center shrink-0">
+                            <ShieldCheck size={16} className="text-[#00ed64]" />
+                          </div>
+                          <div>
+                            <h4 className="font-archivo text-sm font-bold text-white tracking-tight">Enter Verification Code</h4>
+                            <p className="text-[#5c6c75] text-xs font-sans">
+                              6-digit code sent to <span className="text-[#e8edeb]">{user.email}</span>
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* OTP Input + Actions row */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                          <OTPInput value={otpCode} onChange={setOtpCode} />
+                          
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={handleVerifyOtp}
+                              disabled={verifying || otpCode.length !== 6}
+                              className="h-10 px-5 bg-[#00ed64] text-[#001e2b] rounded-lg font-bold uppercase tracking-[1px] text-[11px] hover:bg-[#00c854] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2 shadow-[0_2px_8px_rgba(0,237,100,0.15)] hover:shadow-[0_4px_12px_rgba(0,237,100,0.25)] active:scale-[0.97] whitespace-nowrap"
+                            >
+                              {verifying ? <Loader2 size={14} className="animate-spin" /> : <ShieldCheck size={14} />}
+                              {verifying ? 'Verifying...' : 'Verify'}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Resend link */}
+                        <div className="flex items-center justify-between pt-3 border-t border-[#3d4f58]/30">
+                          <button
+                            onClick={handleResendOtp}
+                            disabled={resendTimer > 0 || verifying}
+                            className="text-[11px] font-mono text-[#5c6c75] hover:text-[#00ed64] transition-colors disabled:opacity-40 disabled:hover:text-[#5c6c75] uppercase tracking-[1px]"
+                          >
+                            {resendTimer > 0 ? `Resend in ${resendTimer}s` : "Resend code"}
+                          </button>
+                          <span className="text-[10px] font-mono text-[#3d4f58] uppercase tracking-[1px]">
+                            Code expires in 10 min
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 

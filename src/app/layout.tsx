@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
-import { Geist, Archivo_Black, JetBrains_Mono } from "next/font/google";
+import { Geist, Archivo_Black, JetBrains_Mono, Source_Code_Pro } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { NavigationWrapper } from "@/components/layout/NavigationWrapper";
 import NextTopLoader from "nextjs-toploader";
@@ -23,6 +23,13 @@ const jetBrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   display: 'swap',
+});
+
+const sourceCodePro = Source_Code_Pro({
+  variable: "--font-source-code-pro",
+  subsets: ["latin"],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -53,7 +60,7 @@ export default function RootLayout({
     <SessionProvider>
       <html lang="en" className="h-full scroll-smooth dark relative" data-scroll-behavior="smooth" suppressHydrationWarning>
         <body
-          className={`${geist.variable} ${archivoBlack.variable} ${jetBrainsMono.variable} antialiased h-full overflow-x-hidden font-sans`}
+          className={`${geist.variable} ${archivoBlack.variable} ${jetBrainsMono.variable} ${sourceCodePro.variable} antialiased h-full overflow-x-hidden font-sans`}
         >
           <NextTopLoader color="#00ed64" showSpinner={false} />
           <NavigationWrapper>
