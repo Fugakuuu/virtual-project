@@ -57,5 +57,12 @@
     "shadcn": "^4.3.1",
     "tailwindcss": "4.0.0-alpha.26",
     "typescript": "5.9.2"
+  },
+  "optionalDependencies": {
+    "@next/swc-linux-x64-gnu": "16.2.3",
+    "@next/swc-linux-x64-musl": "16.2.3"
+  },
+  "overrides": {
+    "uuid": "$uuid"
   }
 }
