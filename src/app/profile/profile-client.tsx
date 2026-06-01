@@ -237,16 +237,16 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent pb-32">
+    <div className="min-h-screen bg-transparent pb-28 sm:pb-32 px-4 sm:px-0">
       {/* ── Header ── */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-[#3d4f58] pb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12 border-b border-[#3d4f58] pb-6 sm:pb-8">
         <div>
-          <h1 className="font-archivo text-4xl md:text-5xl font-bold tracking-tight text-white uppercase">
+          <h1 className="font-archivo text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white uppercase">
             Profile{" "}
             <span className="text-[#00ed64] border-[#00ed64] pb-1">Settings</span>
           </h1>
         </div>
-        <div className="mt-6 md:mt-0 flex items-center gap-3 bg-[#1c2d38] px-5 py-2.5 rounded-[100px] border border-[#3d4f58]">
+        <div className="mt-4 md:mt-0 flex items-center gap-3 bg-[#1c2d38] px-4 sm:px-5 py-2 sm:py-2.5 rounded-[100px] border border-[#3d4f58]">
           <div className="h-2 w-2 rounded-full bg-[#00ed64] animate-pulse shadow-[0_0_8px_rgba(0,237,100,0.4)]" />
           <span className="font-mono text-[9px] font-semibold text-[#00ed64] uppercase tracking-[2.5px]">
             Auth Live
@@ -254,20 +254,20 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
         </div>
       </div>
 
-      <div className="space-y-10 max-w-5xl">
+      <div className="space-y-6 sm:space-y-10 max-w-5xl mx-auto">
         {/* ── Identity Module ── */}
         <div 
-          className="bg-[#1c2d38] border border-[#3d4f58] rounded-2xl p-8 md:p-10 relative overflow-hidden"
+          className="bg-[#1c2d38] border border-[#3d4f58] rounded-2xl p-5 sm:p-8 md:p-10 relative overflow-hidden"
           style={{ boxShadow: 'rgba(0, 30, 43, 0.12) 0px 26px 44px, rgba(0, 0, 0, 0.13) 0px 7px 13px' }}
         >
           {/* Glow accent */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#00ed64]/5 blur-[100px] pointer-events-none" />
           
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 relative z-10">
             {/* Avatar Column */}
             <div className="md:col-span-4 flex flex-col items-center">
               <div className="relative">
-                <div className="w-48 h-48 rounded-[32px] bg-[#001e2b] border border-[#3d4f58] flex items-center justify-center overflow-hidden transition-all duration-500">
+                <div className="w-28 h-28 sm:w-48 sm:h-48 rounded-[24px] sm:rounded-[32px] bg-[#001e2b] border border-[#3d4f58] flex items-center justify-center overflow-hidden transition-all duration-500">
                   {image ? (
                     <img 
                       src={image} 
@@ -275,27 +275,29 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                       alt="Avatar" 
                     />
                   ) : (
-                    <div className="flex flex-col items-center gap-3 text-[#5c6c75]">
-                      <User size={64} strokeWidth={1} />
+                    <div className="flex flex-col items-center gap-2 sm:gap-3 text-[#5c6c75]">
+                      <User size={40} className="sm:hidden" strokeWidth={1} />
+                      <User size={64} className="hidden sm:block" strokeWidth={1} />
                       <span className="font-mono text-[9px] font-semibold uppercase tracking-[2px]">No Image</span>
                     </div>
                   )}
                 </div>
                 <button 
                   onClick={() => fileInputRef.current?.click()}
-                  className="absolute -bottom-2 -right-2 p-4 rounded-[100px] bg-[#00684a] border border-[#00684a] text-black shadow-[rgba(0,0,0,0.06)_0px_1px_6px] hover:scale-[1.1] transition-all duration-200 active:scale-[0.85]"
+                  className="absolute -bottom-2 -right-2 p-3 sm:p-4 rounded-[100px] bg-[#00684a] border border-[#00684a] text-black shadow-[rgba(0,0,0,0.06)_0px_1px_6px] hover:scale-[1.1] transition-all duration-200 active:scale-[0.85]"
                 >
-                  <Camera size={20} />
+                  <Camera size={16} className="sm:hidden" />
+                  <Camera size={20} className="hidden sm:block" />
                 </button>
                 <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept="image/*" />
               </div> 
             </div>
 
             {/* Form Column */}
-            <div className="md:col-span-8 space-y-8">
+            <div className="md:col-span-8 space-y-5 sm:space-y-8">
               {/* Display Name Field */}
-              <div className="space-y-3">
-                <label className="font-mono text-[14px] font-medium uppercase tracking-[2px] text-[#5c6c75] flex items-center gap-2">
+              <div className="space-y-2 sm:space-y-3">
+                <label className="font-mono text-[11px] sm:text-[14px] font-medium uppercase tracking-[2px] text-[#5c6c75] flex items-center gap-2">
                   Display Name
                 </label>
                 <div className="relative">
@@ -303,10 +305,10 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full h-14 px-6 bg-[#001e2b] border border-[#3d4f58] rounded-[4px] text-[#e8edeb] font-sans text-lg font-light focus:outline-none focus:border-[#00ed64]/50 focus:ring-2 focus:ring-[#00ed64]/10 transition-all placeholder:text-[#3d4f58]"
+                    className="w-full h-12 sm:h-14 px-4 sm:px-6 bg-[#001e2b] border border-[#3d4f58] rounded-[4px] text-[#e8edeb] font-sans text-base sm:text-lg font-light focus:outline-none focus:border-[#00ed64]/50 focus:ring-2 focus:ring-[#00ed64]/10 transition-all placeholder:text-[#3d4f58]"
                     placeholder="Enter display name..."
                   />
-                  <div className="absolute right-5 top-1/2 -translate-y-1/2 text-[#3d4f58]">
+                  <div className="absolute right-4 sm:right-5 top-1/2 -translate-y-1/2 text-[#3d4f58]">
                     <Terminal size={16} />
                   </div>
                 </div>
@@ -314,16 +316,18 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
 
 
               {/* Email Field (Read-only) */}
-              <div className="space-y-3">
-                <label className="font-mono text-[14px] font-medium uppercase tracking-[2px] text-[#5c6c75] flex items-center gap-2">
+              <div className="space-y-2 sm:space-y-3">
+                <label className="font-mono text-[11px] sm:text-[14px] font-medium uppercase tracking-[2px] text-[#5c6c75] flex items-center gap-2">
                   Primary Email
                 </label>
-                <div className="w-full h-14 px-6 bg-[#001e2b] border border-[#3d4f58] rounded-[4px] flex items-center">
-                  <Mail size={16} className="text-[#5c6c75] mr-4" />
-                  <p className="text-[#e8edeb] font-sans text-base font-light tracking-tight">{user.email}</p>
+                <div className="w-full min-h-[48px] sm:min-h-[56px] px-4 sm:px-6 py-3 sm:py-0 bg-[#001e2b] border border-[#3d4f58] rounded-[4px] flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0">
+                  <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <Mail size={16} className="text-[#5c6c75] shrink-0" />
+                    <p className="text-[#e8edeb] font-sans text-sm sm:text-base font-light tracking-tight truncate">{user.email}</p>
+                  </div>
                   
                   {isVerified ? (
-                    <div className="ml-auto px-3 py-1 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2">
+                    <div className="sm:ml-auto px-3 py-1 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2 self-start sm:self-auto shrink-0">
                       <ShieldCheck size={12} className="text-[#00ed64]" />
                       <span className="font-mono text-[9px] font-semibold text-[#00ed64] uppercase tracking-[2px]">Verified</span>
                     </div>
@@ -331,7 +335,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                     <button
                       onClick={handleSendVerification}
                       disabled={verifying || otpStep}
-                      className="ml-auto px-4 py-1.5 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2 hover:bg-[#253945] transition-colors disabled:opacity-50"
+                      className="sm:ml-auto px-4 py-1.5 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2 hover:bg-[#253945] transition-colors disabled:opacity-50 self-start sm:self-auto shrink-0"
                     >
                       {verifying && !otpStep ? <Loader2 size={12} className="animate-spin text-[#00ed64]" /> : <Shield size={12} className="text-[#5c6c75]" />}
                       <span className="font-mono text-[9px] font-semibold text-white uppercase tracking-[2px]">
@@ -352,45 +356,45 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                     transition={{ duration: 0.3, ease: "easeOut" }}
                     className="overflow-hidden"
                   >
-                    <div className="p-6 bg-[#001e2b] border border-[#3d4f58] rounded-xl relative">
+                    <div className="p-4 sm:p-6 bg-[#001e2b] border border-[#3d4f58] rounded-xl relative">
                       <div className="absolute top-0 right-0 w-48 h-48 bg-[#00ed64]/5 blur-[80px] pointer-events-none" />
 
                       {/* Close */}
                       <button
                         onClick={() => { setOtpStep(false); setOtpCode(""); }}
-                        className="absolute top-4 right-4 text-[#5c6c75] hover:text-white p-1.5 rounded-full hover:bg-[#1c2d38] transition-all"
+                        className="absolute top-3 right-3 sm:top-4 sm:right-4 text-[#5c6c75] hover:text-white p-1.5 rounded-full hover:bg-[#1c2d38] transition-all"
                       >
                         <X size={14} />
                       </button>
 
-                      <div className="relative z-10 space-y-5">
+                      <div className="relative z-10 space-y-4 sm:space-y-5">
                         {/* Header */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 pr-8">
                           <div className="w-9 h-9 rounded-xl bg-[#00ed64]/10 border border-[#00ed64]/20 flex items-center justify-center shrink-0">
                             <ShieldCheck size={16} className="text-[#00ed64]" />
                           </div>
-                          <div>
+                          <div className="min-w-0">
                             <h4 className="font-archivo text-sm font-bold text-white tracking-tight">Enter Verification Code</h4>
-                            <p className="text-[#5c6c75] text-xs font-sans">
+                            <p className="text-[#5c6c75] text-xs font-sans truncate">
                               6-digit code sent to <span className="text-[#e8edeb]">{user.email}</span>
                             </p>
                           </div>
                         </div>
 
-                        {/* OTP Input + Actions row */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                          <OTPInput value={otpCode} onChange={setOtpCode} />
-                          
-                          <div className="flex items-center gap-3">
-                            <button
-                              onClick={handleVerifyOtp}
-                              disabled={verifying || otpCode.length !== 6}
-                              className="h-10 px-5 bg-[#00ed64] text-[#001e2b] rounded-lg font-bold uppercase tracking-[1px] text-[11px] hover:bg-[#00c854] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2 shadow-[0_2px_8px_rgba(0,237,100,0.15)] hover:shadow-[0_4px_12px_rgba(0,237,100,0.25)] active:scale-[0.97] whitespace-nowrap"
-                            >
-                              {verifying ? <Loader2 size={14} className="animate-spin" /> : <ShieldCheck size={14} />}
-                              {verifying ? 'Verifying...' : 'Verify'}
-                            </button>
+                        {/* OTP Input + Actions — stacks vertically on mobile */}
+                        <div className="flex flex-col gap-4">
+                          <div className="flex justify-center sm:justify-start">
+                            <OTPInput value={otpCode} onChange={setOtpCode} />
                           </div>
+                          
+                          <button
+                            onClick={handleVerifyOtp}
+                            disabled={verifying || otpCode.length !== 6}
+                            className="w-full sm:w-auto h-10 px-5 bg-[#00ed64] text-[#001e2b] rounded-lg font-bold uppercase tracking-[1px] text-[11px] hover:bg-[#00c854] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_2px_8px_rgba(0,237,100,0.15)] hover:shadow-[0_4px_12px_rgba(0,237,100,0.25)] active:scale-[0.97] whitespace-nowrap"
+                          >
+                            {verifying ? <Loader2 size={14} className="animate-spin" /> : <ShieldCheck size={14} />}
+                            {verifying ? 'Verifying...' : 'Verify'}
+                          </button>
                         </div>
 
                         {/* Resend link */}
@@ -415,11 +419,11 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
           </div>
 
           {/* Save Button */}
-          <div className="mt-10 flex justify-end pt-8 border-t border-[#3d4f58]">
+          <div className="mt-6 sm:mt-10 flex justify-end pt-6 sm:pt-8 border-t border-[#3d4f58]">
             <button
               onClick={handleSave}
               disabled={loading || (name === user.name && image === user.image)}
-              className="btn-save-profile"
+              className="btn-save-profile w-full sm:w-auto"
             >
               {loading ? (
                 <Loader2 size={14} className="animate-spin" />
@@ -433,35 +437,36 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
 
         {/* ── Overlay Integration ── */}
         <div 
-          className="bg-[#1c2d38] border border-[#3d4f58] rounded-2xl p-8 md:p-10 relative overflow-hidden"
+          className="bg-[#1c2d38] border border-[#3d4f58] rounded-2xl p-5 sm:p-8 md:p-10 relative overflow-hidden"
           style={{ boxShadow: 'rgba(0, 30, 43, 0.12) 0px 26px 44px, rgba(0, 0, 0, 0.13) 0px 7px 13px' }}
         >
           {/* Section Header */}
-          <div className="mb-10">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="p-2.5 bg-[#001e2b] border border-[#3d4f58] rounded-xl">
-                <Globe size={20} className="text-[#00ed64]" />
+          <div className="mb-6 sm:mb-10">
+            <div className="flex items-center gap-3 mb-2 sm:mb-3">
+              <div className="p-2 sm:p-2.5 bg-[#001e2b] border border-[#3d4f58] rounded-xl">
+                <Globe size={18} className="sm:hidden text-[#00ed64]" />
+                <Globe size={20} className="hidden sm:block text-[#00ed64]" />
               </div>
-              <h2 className="font-archivo text-2xl md:text-3xl font-bold tracking-tight text-white uppercase">
+              <h2 className="font-archivo text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white uppercase">
                 Overlay{" "}
                 <span className="text-[#00ed64] border-b-2 border-[#00ed64] pb-0.5">Integration</span>
               </h2>
             </div>
-            <p className="font-mono text-[14px] font-medium text-[#5c6c75] uppercase tracking-[2px] ml-[52px]">
+            <p className="font-mono text-[10px] sm:text-[14px] font-medium text-[#5c6c75] uppercase tracking-[2px] ml-[42px] sm:ml-[52px]">
               Browser Source // Stream Studio
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#001e2b] border border-[#3d4f58] space-y-8">
+          <div className="p-4 sm:p-6 rounded-2xl bg-[#001e2b] border border-[#3d4f58] space-y-5 sm:space-y-8">
             {/* URL + Copy */}
-            <div className="flex flex-col md:flex-row items-center gap-5">
-              <div className="flex-1 w-full space-y-2">
+            <div className="flex flex-col gap-4 sm:gap-5">
+              <div className="w-full space-y-2">
                 <label className="font-mono text-[10px] font-semibold uppercase tracking-[2px] text-[#5c6c75] ml-1">
                   Secure Endpoint
                 </label>
                 <div className="relative">
-                  <div className="w-full h-14 bg-[#1c2d38] rounded-[4px] px-5 flex items-center overflow-hidden border border-[#3d4f58] focus-within:border-[#00ed64]/30 transition-all">
-                    <code className="text-[13px] text-[#00ed64] font-mono truncate select-all font-medium">
+                  <div className="w-full min-h-[48px] sm:h-14 bg-[#1c2d38] rounded-[4px] px-3 sm:px-5 flex items-center overflow-hidden border border-[#3d4f58] focus-within:border-[#00ed64]/30 transition-all">
+                    <code className="text-[11px] sm:text-[13px] text-[#00ed64] font-mono truncate select-all font-medium break-all">
                       {mounted ? overlayUrl : "INITIALIZING_ENDPOINT..."}
                     </code>
                   </div>
@@ -469,13 +474,13 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                 </div>
               </div>
 
-              {/* Copy Button — Dark Teal style */}
+              {/* Copy Button */}
               <button 
                 onClick={handleCopy}
-                className={`h-14 w-full md:w-48 rounded-[100px] flex items-center justify-center transition-all duration-300 border font-mono font-semibold text-[12px] tracking-[2px] uppercase ${
+                className={`h-12 sm:h-14 w-full sm:w-48 rounded-[100px] flex items-center justify-center transition-all duration-300 border font-mono font-semibold text-[12px] tracking-[2px] uppercase ${
                   copied 
                   ? "bg-[#00ed64] text-black border-[#00ed64] shadow-[0_0_20px_rgba(0,237,100,0.2)]" 
-                  : "bg-[#1c2d38] text-[#5c6c75] border-[#3d4f58] hover:bg-[#1eaedb] hover:text-white hover:border-[#1eaedb] hover:translate-x-[5px]"
+                  : "bg-[#1c2d38] text-[#5c6c75] border-[#3d4f58] hover:bg-[#1eaedb] hover:text-white hover:border-[#1eaedb]"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -486,14 +491,15 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
             </div>
 
             {/* Security Notice */}
-            <div className="p-6 bg-red-500/5 rounded-2xl border border-red-500/10 flex items-start gap-5">
-              <div className="w-10 h-10 shrink-0 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
-                <Shield size={20} />
+            <div className="p-4 sm:p-6 bg-red-500/5 rounded-2xl border border-red-500/10 flex items-start gap-3 sm:gap-5">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
+                <Shield size={18} className="sm:hidden" />
+                <Shield size={20} className="hidden sm:block" />
               </div>
-              <div className="space-y-1.5">
-                <p className="font-mono text-[12px] font-semibold uppercase tracking-[2px] text-red-500">Encryption Notice</p>
-                <p className="font-sans text-[14px] text-red-400/60 font-light leading-relaxed max-w-2xl">
-                  This URL contains a unique session key. Sharing this endpoint will compromise your broadcast security, allowing external entities to manipulate your scene output.
+              <div className="space-y-1 sm:space-y-1.5 min-w-0">
+                <p className="font-mono text-[10px] sm:text-[12px] font-semibold uppercase tracking-[2px] text-red-500">Encryption Notice</p>
+                <p className="font-sans text-[12px] sm:text-[14px] text-red-400/60 font-light leading-relaxed">
+                  This URL contains a unique session key. Sharing this endpoint will compromise your broadcast security.
                 </p>
               </div>
             </div>

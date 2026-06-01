@@ -82,7 +82,7 @@ export const OTPInput = ({ value, onChange, length = 6 }: OTPInputProps) => {
   const slotClass = (index: number) => {
     const active = activeIdx === index;
     return [
-      "w-9 h-10 rounded-lg border text-center text-sm font-mono font-semibold",
+      "w-10 h-11 sm:w-9 sm:h-10 rounded-lg border text-center text-base sm:text-sm font-mono font-semibold",
       "outline-none transition-all duration-200",
       "bg-[#1c2d38]/60 border-[#3d4f58] text-[#00ed64] placeholder:text-transparent",
       "shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.06),inset_0px_-1px_0px_0px_rgba(0,0,0,0.3),0px_2px_4px_0px_rgba(0,0,0,0.25)]",
