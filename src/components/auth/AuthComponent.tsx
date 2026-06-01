@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { 
@@ -13,9 +13,7 @@ import {
   Github, 
   User,
   ShieldCheck,
-  AlertCircle,
-  Eye,
-  EyeOff
+  AlertCircle
 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -69,126 +67,24 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 Button.displayName = "Button";
 
-interface FormFieldProps {
-  type: string;
-  placeholder: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  icon: React.ReactNode;
-  showToggle?: boolean;
-  onToggle?: () => void;
-  showPassword?: boolean;
-  autoFocus?: boolean;
-  required?: boolean;
-}
-
-const AnimatedFormField: React.FC<FormFieldProps> = ({
-  type,
-  placeholder,
-  value,
-  onChange,
-  icon,
-  showToggle,
-  onToggle,
-  showPassword,
-  autoFocus,
-  required
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const inputRef = React.useRef<HTMLInputElement>(null);
-
-  React.useEffect(() => {
-    if (autoFocus && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [autoFocus]);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
-
-  return (
-    <div className="relative group">
-      <div
-        className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition-all duration-300 ease-in-out focus-within:border-[#00ed64]/50 focus-within:ring-1 focus-within:ring-[#00ed64]/50"
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 transition-colors duration-200 group-focus-within:text-[#00ed64]">
-          {icon}
-        </div>
-        
-        <input
-          ref={inputRef}
-          type={type}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          required={required}
-          className="w-full bg-transparent pl-11 pr-12 py-3 h-11 text-[13px] text-white placeholder:text-transparent focus:outline-none"
-          placeholder={placeholder}
-        />
-        
-        <label className={`absolute left-11 transition-all duration-200 ease-in-out pointer-events-none ${
-          isFocused || value 
-            ? 'top-2 text-[10px] text-[#00ed64] font-medium' 
-            : 'top-1/2 -translate-y-1/2 text-[13px] text-white/30'
-        }`}>
-          {placeholder}
-        </label>
-
-        {showToggle && (
-          <button
-            type="button"
-            onClick={onToggle}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors focus:outline-none"
-          >
-            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-          </button>
+const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          "flex h-11 w-full rounded-xl border border-[#00ed64]/20 bg-black/20 px-4 py-2 text-[13px] text-white placeholder:text-white/30",
+          "focus:outline-none focus:ring-1 focus:ring-[#00ed64]/50 focus:border-[#00ed64]/50",
+          "transition-all duration-800",
+          className
         )}
-
-        {isHovering && (
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: `radial-gradient(200px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(0, 237, 100, 0.1) 0%, transparent 70%)`
-            }}
-          />
-        )}
-      </div>
-    </div>
-  );
-};
-
-const SocialButton: React.FC<{ icon: React.ReactNode; name: string; onClick: () => void }> = ({ icon, name, onClick }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <button
-      onClick={onClick}
-      type="button"
-      className="relative flex items-center justify-center gap-2 group p-3 h-11 rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] backdrop-blur-md transition-all duration-300 ease-in-out overflow-hidden w-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className={`absolute inset-0 bg-gradient-to-r from-[#00ed64]/10 via-transparent to-transparent transition-transform duration-500 ${
-        isHovered ? 'translate-x-0' : '-translate-x-full'
-      }`} />
-      <div className="relative text-white flex items-center gap-2 text-sm group-hover:text-[#00ed64] transition-colors">
-        {icon}
-        <span>{name}</span>
-      </div>
-    </button>
-  );
-};
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+Input.displayName = "Input";
 
 // --- Auth Component Logic ---
 
@@ -197,27 +93,26 @@ type Step = "identifier" | "password" | "register" | "social-redirect";
 const variants: Variants = {
   initial: (direction: number) => ({
     opacity: 0,
-    filter: "blur(8px)",
-    scale: 0.98,
-    transition: { duration: 1.2, delay:0.5, ease: [0.16, 1, 0.3, 1] }
+    x: direction > 0 ? 20 : -20,
+    scale: 0.95,
   }),
   animate: {
     opacity: 1,
-    filter: "blur(0px)",
     x: 0,
     scale: 1,
-    transition: { duration: 1.2, delay:0.5, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] }
   },
   exit: (direction: number) => ({
     opacity: 0,
-    filter: "blur(8px)",
-    scale: 0.98,
-    transition: { duration: 1.2, delay:0.5, ease: [0.16, 1, 0.3, 1] }
+    x: direction > 0 ? -20 : 20,
+    scale: 0.95,
+    transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] }
   }),
 };
 
 export function AuthComponent() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState<Step>("identifier");
   const [direction, setDirection] = useState(1);
   const [email, setEmail] = useState("");
@@ -226,12 +121,44 @@ export function AuthComponent() {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
   const [emailInfo, setEmailInfo] = useState<{
     exists: boolean;
     hasPassword?: boolean;
     providers?: string[];
   } | null>(null);
+
+  // Load state from sessionStorage on mount
+  useEffect(() => {
+    try {
+      const savedStep = sessionStorage.getItem("authStep") as Step | null;
+      const savedEmail = sessionStorage.getItem("authEmail");
+      const savedEmailInfo = sessionStorage.getItem("authEmailInfo");
+
+      if (savedStep && savedEmail) {
+        setStep(savedStep);
+        setEmail(savedEmail);
+        if (savedEmailInfo) {
+          setEmailInfo(JSON.parse(savedEmailInfo));
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load auth state from session storage");
+    }
+    setMounted(true);
+  }, []);
+
+  // Save state to sessionStorage when it changes
+  useEffect(() => {
+    if (mounted) {
+      sessionStorage.setItem("authStep", step);
+      sessionStorage.setItem("authEmail", email);
+      if (emailInfo) {
+        sessionStorage.setItem("authEmailInfo", JSON.stringify(emailInfo));
+      } else {
+        sessionStorage.removeItem("authEmailInfo");
+      }
+    }
+  }, [step, email, emailInfo, mounted]);
 
   const navigateTo = (newStep: Step, dir: number) => {
     setDirection(dir);
@@ -347,23 +274,23 @@ export function AuthComponent() {
     setEmailInfo(null);
     setPassword("");
     setOtp("");
+    sessionStorage.removeItem("authStep");
+    sessionStorage.removeItem("authEmail");
+    sessionStorage.removeItem("authEmailInfo");
   };
+
+  if (!mounted) return null;
 
   return (
     <motion.div 
       layout
-      transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-      className="w-full max-w-[350px] mx-auto relative group"
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="w-full max-w-[350px] mx-auto relative group z-1"
     >
-      {/* Glassmorphic Container */}
       <motion.div 
         layout
-        className="relative backdrop-blur-2xl bg-white/[0.02] border border-white/[0.05] shadow-[0_0_40px_rgba(0,0,0,0.5)] rounded-[24px] overflow-hidden p-6 sm:p-7 min-h-[380px] flex flex-col transition-colors duration-500 hover:border-white/10"
+        className="relative bg-gradient-to-b from-[#00283a]/80 to-[#001e2b] shadow-[0_0_40px_rgba(0,0,0,0.5)] rounded-[24px] overflow-hidden p-8 flex flex-col items-center border border-[#00ed64]/10 text-white transition-colors duration-500"
       >
-        
-        {/* Subtle top glare effect */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-        
         <AnimatePresence mode="wait" custom={direction}>
           {step === "identifier" && (
             <motion.div
@@ -373,67 +300,67 @@ export function AuthComponent() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex-1 flex flex-col justify-center space-y-6"
+              className="w-full flex flex-col items-center"
             >
-              <div className="space-y-1.5">
-                <h2 className="text-lg sm:text-xl font-archivo text-white font-bold uppercase">Sign in to continue</h2>
-                <p className="text-white/40 text-[13px]">Enter your email to access your workspace</p>
-              </div>
+              <h2 className="text-2xl font-bold uppercase font-archivo mb-2 text-center text-white mt-4">
+                Sign in to continue
+              </h2>
+              <p className="text-white/50 text-[13px] mb-6 text-center">
+                Enter your email to access your workspace
+              </p>
 
-              <form onSubmit={handleIdentifierSubmit} className="space-y-5">
-                <AnimatedFormField
-                  type="email"
-                  placeholder="Email Address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  icon={<Mail className="w-4 h-4" />}
-                  required
-                />
+              <form onSubmit={handleIdentifierSubmit} className="w-full flex flex-col gap-3 mb-2">
+                <div className="relative group">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
+                  <Input
+                    placeholder="name@example.com"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-11"
+                    required
+                  />
+                </div>
 
                 {error && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }} 
-                    animate={{ opacity: 1, height: "auto" }} 
-                    className="flex items-center gap-2 text-red-400 text-xs bg-red-400/10 p-3 rounded-xl border border-red-400/20"
-                  >
-                    <AlertCircle size={14} className="shrink-0" />
-                    <span>{error}</span>
-                  </motion.div>
+                  <div className="text-xs text-red-400 text-left">{error}</div>
                 )}
 
-                <Button type="submit" className="w-full group" isLoading={loading}>
-                  Continue 
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-b from-[#00ed64] to-[#00c854] text-[#001e2b] font-medium py-3 rounded-xl shadow-[0_0_20px_rgba(0,237,100,0.2)] hover:brightness-110 cursor-pointer transition mb-4 mt-2 disabled:opacity-50 flex justify-center items-center h-12"
+                >
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Continue"}
+                </button>
               </form>
 
-              <div className="relative py-4">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-white/10"></div>
-                </div>
-                <div className="relative flex justify-center text-[10px] uppercase tracking-widest font-mono">
-                  <span className="bg-[#042431] px-4 text-white/30 rounded-full py-1 border border-white/5 backdrop-blur-md">Or continue with</span>
-                </div>
+              <div className="flex items-center w-full my-4">
+                <div className="flex-grow border-t border-dashed border-white/20"></div>
+                <span className="mx-3 text-xs text-white/40">Or continue with</span>
+                <div className="flex-grow border-t border-dashed border-white/20"></div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <SocialButton 
-                  onClick={() => handleSocialSignIn("google")} 
-                  name="Google"
-                  icon={
-                    <svg className="w-4 h-4" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                      <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                      <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
-                      <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                    </svg>
-                  }
-                />
-                <SocialButton 
-                  onClick={() => handleSocialSignIn("github")} 
-                  name="GitHub"
-                  icon={<Github size={16} />}
-                />
+              <div className="flex gap-3 w-full justify-center mt-2">
+                <button 
+                  type="button"
+                  onClick={() => handleSocialSignIn("google")}
+                  className="flex items-center justify-center h-12 rounded-xl border border-[#00ed64]/20 bg-black/20 hover:bg-white/10 transition grow"
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                  </svg>
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => handleSocialSignIn("github")}
+                  className="flex items-center justify-center h-12 rounded-xl border border-[#00ed64]/20 bg-black/20 hover:bg-white/10 transition grow"
+                >
+                  <Github size={20} className="text-white" />
+                </button>
               </div>
             </motion.div>
           )}
@@ -446,56 +373,52 @@ export function AuthComponent() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex-1 flex flex-col justify-center space-y-6"
+              className="w-full flex flex-col items-center relative"
             >
-              <button onClick={reset} className="flex items-center gap-2 text-white/40 hover:text-white text-xs transition-colors group w-fit">
-                <div className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                  <ArrowLeft size={12} className="group-hover:-translate-x-0.5 transition-transform" /> 
-                </div>
-                Back
+              <button onClick={reset} className="absolute -left-2 -top-2 text-white/40 hover:text-white text-xs flex items-center gap-1 transition-colors">
+                <ArrowLeft size={14} /> Back
               </button>
               
-              <div className="space-y-1.5">
-                <h2 className="text-lg sm:text-xl font-archivo text-white font-bold uppercase">Verify password</h2>
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[13px]">
-                  <Mail size={12} className="text-white/40 mr-2" />
-                  <span className="text-white/80 truncate max-w-[200px]">{email}</span>
-                </div>
+              <h2 className="text-2xl font-bold uppercase font-archivo mb-2 text-center text-white mt-10">
+                Verify password
+              </h2>
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 border border-[#00ed64]/20 text-[13px] mb-6">
+                <Mail size={12} className="text-white/40 mr-2" />
+                <span className="text-white/80 truncate max-w-[200px]">{email}</span>
               </div>
 
-              <form onSubmit={handlePasswordSubmit} className="space-y-5">
-                <AnimatedFormField
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  icon={<Lock className="w-4 h-4" />}
-                  showToggle
-                  onToggle={() => setShowPassword(!showPassword)}
-                  showPassword={showPassword}
-                  autoFocus
-                  required
-                />
+              <form onSubmit={handlePasswordSubmit} className="w-full flex flex-col gap-3">
+                <div className="relative group">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
+                  <Input
+                    placeholder="••••••••"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-11"
+                    autoFocus
+                    required
+                  />
+                </div>
+
+                <div className="w-full flex justify-end mb-1">
+                  <button type="button" className="text-xs text-[#00ed64]/80 hover:text-[#00ed64] hover:underline font-medium">
+                    Forgot password?
+                  </button>
+                </div>
 
                 {error && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }} 
-                    animate={{ opacity: 1, height: "auto" }} 
-                    className="flex items-center gap-2 text-red-400 text-xs bg-red-400/10 p-3 rounded-xl border border-red-400/20"
-                  >
-                    <AlertCircle size={14} className="shrink-0" />
-                    <span>{error}</span>
-                  </motion.div>
+                  <div className="text-xs text-red-400 text-left mb-1">{error}</div>
                 )}
 
-                <Button type="submit" className="w-full" isLoading={loading}>
-                  Sign In
-                </Button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-b from-[#00ed64] to-[#00c854] text-[#001e2b] font-medium py-3 rounded-xl shadow-[0_0_20px_rgba(0,237,100,0.2)] hover:brightness-110 cursor-pointer transition flex justify-center items-center mt-2 h-12"
+                >
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
+                </button>
               </form>
-
-              <button className="text-[#00ed64]/60 hover:text-[#00ed64] text-xs font-medium transition-colors mx-auto block mt-4">
-                Forgot password?
-              </button>
             </motion.div>
           )}
 
@@ -507,69 +430,60 @@ export function AuthComponent() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex-1 flex flex-col justify-center space-y-6"
+              className="w-full flex flex-col items-center relative"
             >
-              <button onClick={reset} className="flex items-center gap-2 text-white/40 hover:text-white text-xs transition-colors group w-fit">
-                <div className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                  <ArrowLeft size={12} className="group-hover:-translate-x-0.5 transition-transform" /> 
-                </div>
-                Back
+              <button onClick={reset} className="absolute -left-2 -top-2 text-white/40 hover:text-white text-xs flex items-center gap-1 transition-colors">
+                <ArrowLeft size={14} /> Back
               </button>
-
-              <div className="space-y-1.5">
-                <h2 className="text-lg sm:text-xl font-archivo text-white font-bold uppercase">Create account</h2>
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[13px]">
-                  <Mail size={12} className="text-white/40 mr-2" />
-                  <span className="text-white/80 truncate max-w-[180px]">{email}</span>
-                </div>
+              
+              <h2 className="text-2xl font-bold uppercase font-archivo mb-2 text-center text-white mt-10">
+                Create account
+              </h2>
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/5 border border-[#00ed64]/20 text-[13px] mb-6">
+                <Mail size={12} className="text-white/40 mr-2" />
+                <span className="text-white/80 truncate max-w-[180px]">{email}</span>
               </div>
 
-              <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                <AnimatedFormField
-                  type="text"
-                  placeholder="Display Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  icon={<User className="w-4 h-4" />}
-                  autoFocus
-                  required
-                />
+              <form onSubmit={handleRegisterSubmit} className="w-full flex flex-col gap-3">
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
+                  <Input
+                    placeholder="Display Name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="pl-11"
+                    autoFocus
+                    required
+                  />
+                </div>
                 
-                <AnimatedFormField
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Create Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  icon={<Lock className="w-4 h-4" />}
-                  showToggle
-                  onToggle={() => setShowPassword(!showPassword)}
-                  showPassword={showPassword}
-                  required
-                />
+                <div className="relative group">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
+                  <Input
+                    placeholder="Create Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-11"
+                    required
+                  />
+                </div>
 
                 {error && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }} 
-                    animate={{ opacity: 1, height: "auto" }} 
-                    className="flex items-center gap-2 text-red-400 text-xs bg-red-400/10 p-3 rounded-xl border border-red-400/20"
-                  >
-                    <AlertCircle size={14} className="shrink-0" />
-                    <span>{error}</span>
-                  </motion.div>
+                  <div className="text-xs text-red-400 text-left mb-1">{error}</div>
                 )}
 
-                <Button type="submit" className="w-full" isLoading={loading}>
-                  Create Account
-                </Button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-b from-[#00ed64] to-[#00c854] text-[#001e2b] font-medium py-3 rounded-xl shadow-[0_0_20px_rgba(0,237,100,0.2)] hover:brightness-110 cursor-pointer transition mt-3 flex justify-center items-center h-12"
+                >
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Get Started"}
+                </button>
               </form>
-
-              <p className="text-[10px] text-white/30 text-center font-mono tracking-widest uppercase leading-relaxed mt-4">
-                By continuing, you agree to our <br/> Terms of Service and Privacy Policy.
-              </p>
             </motion.div>
           )}
-
-
 
           {step === "social-redirect" && (
             <motion.div
@@ -579,48 +493,47 @@ export function AuthComponent() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex-1 flex flex-col justify-center space-y-8 text-center"
+              className="w-full flex flex-col items-center relative"
             >
-              <div className="w-20 h-20 bg-white/5 border border-white/10 rounded-full flex items-center justify-center mx-auto relative overflow-hidden">
-                 <ShieldCheck className="w-10 h-10 text-[#00ed64] relative z-10" />
-                 <div className="absolute inset-0 bg-[#00ed64]/10 blur-xl rounded-full" />
-              </div>
+              <button onClick={reset} className="absolute -left-2 -top-2 text-white/40 hover:text-white text-xs flex items-center gap-1 transition-colors">
+                <ArrowLeft size={14} /> Back
+              </button>
 
-              <div className="space-y-2">
-                <h2 className="text-lg sm:text-xl font-archivo text-white font-bold uppercase">Secure Login Required</h2>
-                <p className="text-white/40 text-[13px] leading-relaxed px-2">
-                  This account is managed by <span className="text-white font-medium">{emailInfo?.providers?.[0]?.toUpperCase()}</span>. <br/>
-                  Please use the official provider link to sign in safely.
-                </p>
-              </div>
+              <h2 className="text-2xl font-bold uppercase font-archivo mb-2 text-center text-white mt-10">
+                Secure Login Required
+              </h2>
+              <p className="text-white/50 text-[13px] mb-6 text-center leading-relaxed">
+                This account is managed by <span className="text-white font-medium">{emailInfo?.providers?.[0]?.toUpperCase()}</span>.<br/>
+                Please use the provider link below.
+              </p>
 
-              <div className="space-y-4 px-4">
+              <div className="w-full flex flex-col gap-3">
                 {emailInfo?.providers?.includes("google") && (
-                  <SocialButton 
-                    onClick={() => handleSocialSignIn("google")} 
-                    name="Continue with Google"
-                    icon={
-                      <svg className="w-4 h-4" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                        <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                        <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
-                        <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                      </svg>
-                    }
-                  />
+                  <button 
+                    type="button"
+                    onClick={() => handleSocialSignIn("google")}
+                    className="flex items-center justify-center gap-3 h-12 rounded-xl border border-[#00ed64]/20 bg-black/20 hover:bg-white/10 transition w-full text-white font-medium"
+                  >
+                    <svg className="w-5 h-5" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                      <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                      <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+                      <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                    </svg>
+                    Continue with Google
+                  </button>
                 )}
                 {emailInfo?.providers?.includes("github") && (
-                  <SocialButton 
-                    onClick={() => handleSocialSignIn("github")} 
-                    name="Continue with GitHub"
-                    icon={<Github size={16} />}
-                  />
+                  <button 
+                    type="button"
+                    onClick={() => handleSocialSignIn("github")}
+                    className="flex items-center justify-center gap-3 h-12 rounded-xl border border-[#00ed64]/20 bg-black/20 hover:bg-white/10 transition w-full text-white font-medium"
+                  >
+                    <Github size={20} className="text-white" />
+                    Continue with GitHub
+                  </button>
                 )}
               </div>
-
-              <button onClick={reset} className="text-white/30 hover:text-white/60 text-[10px] uppercase tracking-[0.2em] transition-colors font-mono mt-4">
-                // Return to selection
-              </button>
             </motion.div>
           )}
         </AnimatePresence>
