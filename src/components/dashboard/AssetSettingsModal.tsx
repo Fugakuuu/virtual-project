@@ -13,12 +13,12 @@ import { Asset } from "@/types/asset";
 export const AssetSettingsModal = ({ 
   asset, 
   onClose, 
-  onSave,
+  onSaveAction,
   onDelete
 }: { 
   asset: Asset; 
   onClose: () => void; 
-  onSave: (updated: Asset) => void | Promise<void>;
+  onSaveAction: (updated: Asset) => void | Promise<void>;
   onDelete?: () => void;
 }) => {
   const [settings, setSettings] = useState(asset);
@@ -240,7 +240,7 @@ export const AssetSettingsModal = ({
                   onClick={async () => {
                     setIsSaving(true);
                     try {
-                      await onSave(settings);
+                      await onSaveAction(settings);
                     } finally {
                       setIsSaving(false);
                     }

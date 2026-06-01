@@ -155,7 +155,7 @@ export const DashboardClient = ({
         <AssetSettingsModal 
           asset={editingAsset}
           onClose={() => setEditingAsset(null)}
-          onSave={handleSaveSettings}
+          onSaveAction={handleSaveSettings}
           onDelete={() => setDeleteTarget(editingAsset)}
         />
       )}
