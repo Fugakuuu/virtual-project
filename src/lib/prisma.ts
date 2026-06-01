@@ -3,8 +3,9 @@ import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import * as mariadb from "mariadb";
 
 const prismaClientSingleton = () => {
-  const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
-  return new PrismaClient({ adapter });
+  const url = process.env.DATABASE_URL;
+  const adapter = url ? new PrismaMariaDb(url) : undefined;
+  return new PrismaClient(adapter ? { adapter } : undefined);
 };
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
