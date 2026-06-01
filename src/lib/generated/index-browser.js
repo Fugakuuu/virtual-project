@@ -129,9 +129,7 @@ exports.Prisma.UserScalarFieldEnum = {
   overlayToken: 'overlayToken',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  password: 'password',
-  securityQuestion: 'securityQuestion',
-  securityAnswer: 'securityAnswer'
+  password: 'password'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -184,54 +182,14 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
-};
-
-exports.Prisma.UserOrderByRelevanceFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  image: 'image',
-  overlayToken: 'overlayToken',
-  password: 'password',
-  securityQuestion: 'securityQuestion',
-  securityAnswer: 'securityAnswer'
-};
-
-exports.Prisma.AccountOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  type: 'type',
-  provider: 'provider',
-  providerAccountId: 'providerAccountId',
-  refresh_token: 'refresh_token',
-  access_token: 'access_token',
-  token_type: 'token_type',
-  scope: 'scope',
-  id_token: 'id_token',
-  session_state: 'session_state'
-};
-
-exports.Prisma.SessionOrderByRelevanceFieldEnum = {
-  id: 'id',
-  sessionToken: 'sessionToken',
-  userId: 'userId'
-};
-
-exports.Prisma.VerificationTokenOrderByRelevanceFieldEnum = {
-  identifier: 'identifier',
-  token: 'token'
-};
-
-exports.Prisma.AssetOrderByRelevanceFieldEnum = {
-  id: 'id',
-  name: 'name',
-  path: 'path',
-  exitAnimation: 'exitAnimation',
-  chromaColor: 'chromaColor',
-  userId: 'userId'
 };
 exports.AssetType = exports.$Enums.AssetType = {
   IMAGE: 'IMAGE',

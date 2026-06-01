@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
 }
 
 generator client {
@@ -8,20 +8,18 @@ generator client {
 }
 
 model User {
-  id               String    @id @default(cuid())
-  name             String?
-  email            String?   @unique
-  emailVerified    DateTime? @map("email_verified")
-  image            String?
-  overlayToken     String    @unique @default(uuid()) @map("overlay_token")
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @updatedAt @map("updated_at")
-  password         String?
-  securityQuestion String?   @map("security_question")
-  securityAnswer   String?   @map("security_answer")
-  accounts         Account[]
-  sessions         Session[]
-  assets           Asset[]
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  overlayToken  String    @unique @default(uuid()) @map("overlay_token")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  password      String?
+  accounts      Account[]
+  sessions      Session[]
+  assets        Asset[]
 
   @@map("user")
 }

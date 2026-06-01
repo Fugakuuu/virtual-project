@@ -1,11 +1,12 @@
 import { PrismaClient } from "./generated/client";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import * as mariadb from "mariadb";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 const prismaClientSingleton = () => {
-  const url = process.env.DATABASE_URL;
-  const adapter = url ? new PrismaMariaDb(url) : undefined;
-  return new PrismaClient(adapter ? { adapter } : undefined);
+  const connectionString = `${process.env.DATABASE_URL}`;
+  const pool = new Pool({ connectionString });
+  const adapter = new PrismaPg(pool);
+  return new PrismaClient({ adapter });
 };
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
