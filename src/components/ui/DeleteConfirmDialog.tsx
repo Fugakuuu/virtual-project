@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DocumentPortal } from "@/components/ui/DocumentPortal";
 import { lockBodyScroll } from "@/lib/body-scroll-lock";
+import { Loader2 } from "lucide-react";
 
 interface DeleteConfirmDialogProps {
   isOpen: boolean;
@@ -18,6 +19,8 @@ export const DeleteConfirmDialog = ({
   onConfirm,
   onCancel,
 }: DeleteConfirmDialogProps) => {
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
   useEffect(() => {
     if (!isOpen) return;
     const release = lockBodyScroll();
@@ -108,10 +111,19 @@ export const DeleteConfirmDialog = ({
                   <button
                     id="del-confirm"
                     type="button"
-                    onClick={onConfirm}
-                    className="flex-[1.4] h-10 rounded-xl font-mono text-[11px] font-bold uppercase tracking-[2px] bg-[#3d1414] border border-[#7f2020] text-[#f87171] hover:bg-[#4a1a1a] hover:border-[#ef4444] hover:text-[#fca5a5] transition-all duration-150"
+                    disabled={isDeleting}
+                    onClick={async () => {
+                      setIsDeleting(true);
+                      try {
+                        await onConfirm();
+                      } finally {
+                        setIsDeleting(false);
+                      }
+                    }}
+                    className="flex-[1.4] h-10 rounded-xl font-mono text-[11px] font-bold uppercase tracking-[2px] bg-[#3d1414] border border-[#7f2020] text-[#f87171] hover:bg-[#4a1a1a] hover:border-[#ef4444] hover:text-[#fca5a5] transition-all duration-150 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Delete
+                    {isDeleting ? <Loader2 className="animate-spin" size={14} /> : null}
+                    {isDeleting ? "Deleting..." : "Delete"}
                   </button>
                 </div>
               </div>

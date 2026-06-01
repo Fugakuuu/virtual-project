@@ -101,17 +101,20 @@ export default function OverlayClient({ userId }: OverlayClientProps) {
 const AssetRenderer = ({ asset, onComplete }: { asset: AssetInstance, onComplete: () => void }) => {
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [isLoaded, setIsLoaded] = useState(asset.type === 'AUDIO');
 
   useEffect(() => {
-    if (asset.type === "AUDIO" && audioRef.current) {
-      audioRef.current.volume = asset.volume;
-      audioRef.current.play();
+    if (isLoaded) {
+      if (asset.type === "AUDIO" && audioRef.current) {
+        audioRef.current.volume = asset.volume;
+        audioRef.current.play();
+      }
+      if (asset.type === "VIDEO" && videoRef.current) {
+        videoRef.current.volume = asset.volume;
+        videoRef.current.play();
+      }
     }
-    if (asset.type === "VIDEO" && videoRef.current) {
-      videoRef.current.volume = asset.volume;
-      videoRef.current.play();
-    }
-  }, [asset]);
+  }, [asset, isLoaded]);
 
   const getExitProps = () => {
     switch (asset.exitAnimation) {
@@ -129,8 +132,8 @@ const AssetRenderer = ({ asset, onComplete }: { asset: AssetInstance, onComplete
 
   return (
     <motion.div
-      initial={{ scale: asset.scale, opacity: 1, y: 0, x: 0, rotate: 0 }}
-      animate={{ scale: asset.scale, opacity: 1, y: 0, x: 0, rotate: 0 }}
+      initial={{ scale: asset.scale, opacity: 0, y: 0, x: 0, rotate: 0 }}
+      animate={{ scale: asset.scale, opacity: isLoaded ? 1 : 0, y: 0, x: 0, rotate: 0 }}
       exit={getExitProps()}
       className="absolute inset-0 flex items-center justify-center p-8"
       style={{ 
@@ -158,12 +161,14 @@ const AssetRenderer = ({ asset, onComplete }: { asset: AssetInstance, onComplete
         <img 
           src={asset.path} 
           alt={asset.name} 
+          onLoad={() => setIsLoaded(true)}
           className="max-w-[100vw] max-h-[100vh] object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
         />
       ) : asset.type === "VIDEO" ? (
         <video
           ref={videoRef}
           src={asset.path}
+          onLoadedData={() => setIsLoaded(true)}
           className="max-w-[100vw] max-h-[100vh] object-contain"
           onEnded={onComplete}
         />

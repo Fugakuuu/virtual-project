@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { TactileButton } from "@/components/ui/TactileButton";
 import { DocumentPortal } from "@/components/ui/DocumentPortal";
 import { lockBodyScroll } from "@/lib/body-scroll-lock";
-import { X, Maximize, Clock, Volume2, Trash2, ShieldCheck, Terminal, Sliders } from "lucide-react";
+import { X, Maximize, Clock, Volume2, Trash2, ShieldCheck, Terminal, Sliders, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { Asset } from "@/types/asset";
@@ -22,6 +22,7 @@ export const AssetSettingsModal = ({
   onDelete?: () => void;
 }) => {
   const [settings, setSettings] = useState(asset);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     const release = lockBodyScroll();
@@ -236,10 +237,19 @@ export const AssetSettingsModal = ({
                 </TactileButton>
                 <TactileButton
                   variant="primary"
-                  onClick={() => onSave(settings)}
+                  onClick={async () => {
+                    setIsSaving(true);
+                    try {
+                      await onSave(settings);
+                    } finally {
+                      setIsSaving(false);
+                    }
+                  }}
+                  disabled={isSaving}
                   className="flex-[2] gap-3"
                 >
-                  Save Changes
+                  {isSaving ? <Loader2 className="animate-spin" size={16} /> : null}
+                  {isSaving ? "Saving..." : "Save Changes"}
                 </TactileButton>
               </div>
               

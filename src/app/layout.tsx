@@ -3,6 +3,7 @@ import type { Viewport } from "next";
 import { Geist, Archivo_Black, JetBrains_Mono } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { NavigationWrapper } from "@/components/layout/NavigationWrapper";
+import NextTopLoader from "nextjs-toploader";
 import "@/styles/globals.css";
 
 const geist = Geist({
@@ -54,6 +55,7 @@ export default function RootLayout({
         <body
           className={`${geist.variable} ${archivoBlack.variable} ${jetBrainsMono.variable} antialiased h-full overflow-x-hidden font-sans`}
         >
+          <NextTopLoader color="#00ed64" showSpinner={false} />
           <NavigationWrapper>
             {children}
           </NavigationWrapper>
