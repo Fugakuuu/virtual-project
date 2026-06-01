@@ -14,14 +14,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    // Check if user already exists with a password
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
 
-    if (existingUser && existingUser.password) {
-      return NextResponse.json({ error: "Email is already registered" }, { status: 400 });
-    }
 
     // Generate a 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
