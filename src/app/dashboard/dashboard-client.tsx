@@ -7,6 +7,7 @@ import { AssetGrid } from "@/components/dashboard/AssetGrid";
 import { AssetSettingsModal } from "@/components/dashboard/AssetSettingsModal";
 import { AddAssetModal } from "@/components/dashboard/AddAssetModal";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { DeleteConfirmDialog } from "@/components/ui/DeleteConfirmDialog";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Home as HomeIcon, Zap as ZapIcon, User as UserIcon, LogOut as LogOutIcon } from "lucide-react";
@@ -28,6 +29,7 @@ export const DashboardClient = ({
   const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [userData, setUserData] = useState(user);
+  const [deleteTarget, setDeleteTarget] = useState<Asset | null>(null);
 
   const dockItems = [
     { 
@@ -92,11 +94,10 @@ export const DashboardClient = ({
   };
 
   const handleDeleteAsset = async (id: string) => {
-    if (!confirm("Apakah Anda yakin ingin menghapus aset ini?")) return;
-
     const previousAssets = [...assets];
     setAssets(assets.filter(a => a.id !== id));
     setEditingAsset(null);
+    setDeleteTarget(null);
 
     try {
       const response = await fetch(`/api/assets/${id}`, { 
@@ -166,7 +167,7 @@ export const DashboardClient = ({
           asset={editingAsset}
           onClose={() => setEditingAsset(null)}
           onSave={handleSaveSettings}
-          onDelete={() => handleDeleteAsset(editingAsset.id)}
+          onDelete={() => setDeleteTarget(editingAsset)}
         />
       )}
 
@@ -176,6 +177,13 @@ export const DashboardClient = ({
           onSuccess={handleCreateAsset}
         />
       )}
+
+      <DeleteConfirmDialog
+        isOpen={deleteTarget !== null}
+        assetName={deleteTarget?.name ?? ""}
+        onConfirm={() => deleteTarget && handleDeleteAsset(deleteTarget.id)}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </div>
   );
 };
