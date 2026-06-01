@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { io, Socket } from "socket.io-client";
 import { Asset } from "@/types/asset";
 import { AssetGrid } from "@/components/dashboard/AssetGrid";
 import { AssetSettingsModal } from "@/components/dashboard/AssetSettingsModal";
@@ -12,8 +11,7 @@ import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Home as HomeIcon, Zap as ZapIcon, User as UserIcon, LogOut as LogOutIcon } from "lucide-react";
 import Dock from "@/components/ui/Dock";
-
-let socket: Socket;
+import { createClient } from "@/utils/supabase/client";
 
 export const DashboardClient = ({ 
   initialAssets,
@@ -30,6 +28,7 @@ export const DashboardClient = ({
   const [showAddModal, setShowAddModal] = useState(false);
   const [userData, setUserData] = useState(user);
   const [deleteTarget, setDeleteTarget] = useState<Asset | null>(null);
+  const supabase = createClient();
 
   const dockItems = [
     { 
@@ -54,23 +53,13 @@ export const DashboardClient = ({
     },
   ];
 
-  useEffect(() => {
-    socket = io(window.location.origin);
-    
-    socket.on("connect", () => {
-      console.log("Dashboard connected to socket");
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
   const handleTrigger = (asset: Asset) => {
-    console.log("Triggering:", asset.name);
-    socket.emit("trigger-asset", {
-      ...asset,
-      userId
+    console.log("Triggering via Supabase:", asset.name);
+    const channel = supabase.channel(`overlay-${userId}`);
+    channel.send({
+      type: 'broadcast',
+      event: 'play-asset',
+      payload: { ...asset, userId }
     });
   };
 
