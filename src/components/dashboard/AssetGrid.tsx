@@ -95,7 +95,7 @@ const SortableAsset = ({ asset, onTrigger, onSettings }: SortableAssetProps) => 
           e.stopPropagation();
           onSettings(asset);
         }}
-        className="absolute top-3 right-3 p-2 rounded-lg bg-[#001e2b] border border-[#3d4f58] text-[#5c6c75] hover:text-[#00ed64] hover:border-[rgba(0,237,100,0.25)] transition-all z-20 opacity-0 group-hover:opacity-100"
+        className="absolute top-3 right-3 p-2 rounded-lg bg-[#001e2b] border border-[#3d4f58] text-[#5c6c75] hover:text-[#00ed64] hover:border-[rgba(0,237,100,0.25)] transition-all z-20"
       >
         <Settings size={14} />
       </button>
