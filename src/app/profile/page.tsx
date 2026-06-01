@@ -30,6 +30,7 @@ export default async function ProfilePage() {
           name: dbUser.name,
           email: dbUser.email,
           image: dbUser.image,
+          emailVerified: dbUser.emailVerified,
           // @ts-ignore
           overlayToken: dbUser.overlayToken
         }} 

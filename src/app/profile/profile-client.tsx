@@ -18,6 +18,7 @@ interface ProfileClientProps {
     id: string;
     name?: string | null;
     email?: string | null;
+    emailVerified?: Date | null;
     image?: string | null;
     overlayToken?: string | null;
   };
@@ -34,6 +35,12 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
   const [mounted, setMounted] = useState(false);
   const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Email verification state
+  const [isVerified, setIsVerified] = useState(!!user.emailVerified);
+  const [verifying, setVerifying] = useState(false);
+  const [otpStep, setOtpStep] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
 
   const showNotification = (message: string, type: 'success' | 'error') => {
     setNotification({ message, type });
@@ -135,6 +142,59 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
     }
   };
 
+  const handleSendVerification = async () => {
+    if (!user.email) return;
+    setVerifying(true);
+    
+    try {
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email }),
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok) {
+        showNotification(data.error || "Failed to send code", "error");
+      } else {
+        setOtpStep(true);
+        showNotification("Verification code sent to email", "success");
+      }
+    } catch (err) {
+      showNotification("Failed to send code", "error");
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!user.email || !otpCode) return;
+    setVerifying(true);
+    
+    try {
+      const res = await fetch("/api/user/profile/verify-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, otp: otpCode }),
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok) {
+        showNotification(data.error || "Invalid code", "error");
+      } else {
+        setIsVerified(true);
+        setOtpStep(false);
+        showNotification("Email verified successfully!", "success");
+      }
+    } catch (err) {
+      showNotification("Failed to verify code", "error");
+    } finally {
+      setVerifying(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-transparent pb-32">
       {/* ── Header ── */}
@@ -219,10 +279,41 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                 <div className="w-full h-14 px-6 bg-[#001e2b] border border-[#3d4f58] rounded-[4px] flex items-center">
                   <Mail size={16} className="text-[#5c6c75] mr-4" />
                   <p className="text-[#e8edeb] font-sans text-base font-light tracking-tight">{user.email}</p>
-                  <div className="ml-auto px-3 py-1 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2">
-                    <ShieldCheck size={12} className="text-[#00ed64]" />
-                    <span className="font-mono text-[9px] font-semibold text-[#00ed64] uppercase tracking-[2px]">Verified</span>
-                  </div>
+                  
+                  {isVerified ? (
+                    <div className="ml-auto px-3 py-1 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2">
+                      <ShieldCheck size={12} className="text-[#00ed64]" />
+                      <span className="font-mono text-[9px] font-semibold text-[#00ed64] uppercase tracking-[2px]">Verified</span>
+                    </div>
+                  ) : otpStep ? (
+                    <div className="ml-auto flex items-center gap-2">
+                      <input 
+                        type="text" 
+                        maxLength={6}
+                        value={otpCode}
+                        onChange={(e) => setOtpCode(e.target.value.replace(/[^0-9]/g, ''))}
+                        placeholder="6-digit code" 
+                        className="w-28 h-8 px-3 bg-[#1c2d38] border border-[#3d4f58] rounded text-xs font-mono text-[#e8edeb] focus:outline-none focus:border-[#00ed64]/50"
+                      />
+                      <button 
+                        onClick={handleVerifyOtp}
+                        disabled={verifying || otpCode.length !== 6}
+                        className="px-3 py-1.5 bg-[#00ed64] text-[#001e2b] rounded text-[10px] font-bold uppercase tracking-[1px] hover:bg-[#00c854] disabled:opacity-50 transition-colors"
+                      >
+                        {verifying ? '...' : 'Verify'}
+                      </button>
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={handleSendVerification}
+                      disabled={verifying}
+                      className="ml-auto px-4 py-1.5 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2 hover:bg-[#253945] transition-colors"
+                    >
+                      <span className="font-mono text-[9px] font-semibold text-white uppercase tracking-[2px]">
+                        {verifying ? 'Sending...' : 'Verify Email'}
+                      </span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

@@ -88,7 +88,7 @@ Input.displayName = "Input";
 
 // --- Auth Component Logic ---
 
-type Step = "identifier" | "password" | "register" | "social-redirect" | "otp-verification";
+type Step = "identifier" | "password" | "register" | "social-redirect";
 
 const variants: Variants = {
   initial: (direction: number) => ({
@@ -203,42 +203,16 @@ export function AuthComponent() {
     setError(null);
 
     try {
-      const res = await fetch("/api/auth/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Failed to send verification code.");
-      } else {
-        navigateTo("otp-verification", 1);
-      }
-    } catch (err) {
-      setError("Failed to send verification code. Unexpected error.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, name, otp }),
+        body: JSON.stringify({ email, password, name }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Verification failed.");
+        setError(data.error || "Registration failed.");
       } else {
         confetti({
           particleCount: 100,
@@ -253,7 +227,7 @@ export function AuthComponent() {
         });
       }
     } catch (err) {
-      setError("Verification failed. Unexpected error.");
+      setError("Registration failed. Unexpected error.");
     } finally {
       setLoading(false);
     }
@@ -492,62 +466,7 @@ export function AuthComponent() {
             </motion.div>
           )}
 
-          {step === "otp-verification" && (
-            <motion.div
-              key="otp-verification"
-              custom={direction}
-              variants={variants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="flex-1 flex flex-col justify-center space-y-6"
-            >
-              <button onClick={() => navigateTo("register", -1)} className="flex items-center gap-2 text-white/40 hover:text-white text-xs transition-colors group w-fit">
-                <div className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                  <ArrowLeft size={12} className="group-hover:-translate-x-0.5 transition-transform" /> 
-                </div>
-                Back
-              </button>
 
-              <div className="space-y-1.5">
-                <h2 className="text-lg sm:text-xl font-archivo text-white font-bold uppercase">Verify email</h2>
-                <p className="text-white/40 text-[13px]">
-                  We sent a 6-digit code to <span className="text-white/80">{email}</span>
-                </p>
-              </div>
-
-              <form onSubmit={handleVerifyOtp} className="space-y-5">
-                <div className="relative group">
-                  <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
-                  <Input
-                    placeholder="Enter 6-digit code"
-                    type="text"
-                    maxLength={6}
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ""))}
-                    className="pl-11 tracking-widest font-mono"
-                    autoFocus
-                    required
-                  />
-                </div>
-
-                {error && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }} 
-                    animate={{ opacity: 1, height: "auto" }} 
-                    className="flex items-center gap-2 text-red-400 text-xs bg-red-400/10 p-3 rounded-xl border border-red-400/20"
-                  >
-                    <AlertCircle size={14} className="shrink-0" />
-                    <span>{error}</span>
-                  </motion.div>
-                )}
-
-                <Button type="submit" className="w-full" isLoading={loading}>
-                  Verify & Create Account
-                </Button>
-              </form>
-            </motion.div>
-          )}
 
           {step === "social-redirect" && (
             <motion.div

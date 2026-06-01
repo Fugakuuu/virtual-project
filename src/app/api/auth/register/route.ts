@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
@@ -6,45 +6,11 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
   try {
-    const { email, password, name, otp } = await req.json();
+    const { email, password, name } = await req.json();
 
-    if (!email || !password || !otp) {
-      return NextResponse.json({ error: "Email, password, and OTP are required" }, { status: 400 });
+    if (!email || !password) {
+      return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
     }
-
-    // Verify OTP
-    const verificationToken = await prisma.verificationToken.findFirst({
-      where: {
-        identifier: email,
-        token: otp,
-      },
-    });
-
-    if (!verificationToken) {
-      return NextResponse.json({ error: "Invalid or expired OTP" }, { status: 400 });
-    }
-
-    if (verificationToken.expires < new Date()) {
-      await prisma.verificationToken.delete({
-        where: {
-          identifier_token: {
-            identifier: email,
-            token: otp,
-          },
-        },
-      });
-      return NextResponse.json({ error: "OTP has expired" }, { status: 400 });
-    }
-
-    // Delete the used OTP so it can't be used again
-    await prisma.verificationToken.delete({
-      where: {
-        identifier_token: {
-          identifier: email,
-          token: otp,
-        },
-      },
-    });
 
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -80,4 +46,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
-
