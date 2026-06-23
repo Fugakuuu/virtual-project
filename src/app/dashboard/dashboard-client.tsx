@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Home as HomeIcon, Zap as ZapIcon, User as UserIcon, LogOut as LogOutIcon } from "lucide-react";
 import Dock from "@/components/ui/Dock";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 export const DashboardClient = ({ 
   initialAssets,
