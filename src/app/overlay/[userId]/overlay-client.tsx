@@ -18,6 +18,17 @@ export default function OverlayClient({ userId }: OverlayClientProps) {
   const lastAssetIdRef = useRef<string | null>(null);
   const supabase = createClient();
 
+  // Force completely transparent background for streaming software (e.g. TikTok Live Studio)
+  useEffect(() => {
+    document.body.style.setProperty("background-color", "transparent", "important");
+    document.documentElement.style.setProperty("background-color", "transparent", "important");
+    
+    return () => {
+      document.body.style.removeProperty("background-color");
+      document.documentElement.style.removeProperty("background-color");
+    };
+  }, []);
+
   useEffect(() => {
     console.log("[SUPABASE REALTIME] Overlay connected for user:", userId);
     
