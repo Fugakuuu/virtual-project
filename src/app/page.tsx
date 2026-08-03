@@ -100,16 +100,6 @@ export default function Home() {
               The Stream Deck Engine,{" "}<br />
               <span className="text-white/60">With Unlimited Potential.</span>
             </h1>
-
-            {/* Description */}
-            <p
-              className="text-[#8899a6] font-archivo text-lg md:text-xl max-w-2xl mb-12 leading-relaxed"
-            >
-              Kelola semua kebutuhan live stream dalam satu dashboard yang responsif. <br />
-              Dari trigger overlay sampai muterin soundboard, semuanya bisa dikontrol <br />
-              secara instan tanpa perlu hardware tambahan yang mahal.
-            </p>
-
             <div>
               <button 
                 className="btn-modern-hero"
