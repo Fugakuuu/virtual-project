@@ -103,7 +103,7 @@ export default function Home() {
 
             {/* Description */}
             <p
-              className="text-[#8899a6] text-lg md:text-xl max-w-2xl mb-12 leading-relaxed font-sans"
+              className="text-[#8899a6] font-archivo text-lg md:text-xl max-w-2xl mb-12 leading-relaxed"
             >
               Kelola semua kebutuhan live stream dalam satu dashboard yang responsif. <br />
               Dari trigger overlay sampai muterin soundboard, semuanya bisa dikontrol <br />
