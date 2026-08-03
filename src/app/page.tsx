@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { ArrowRight } from "lucide-react";
-import { motion, Variants, useScroll, useMotionValueEvent, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ZapIcon } from "@/components/icons/ZapIcon";
 import { LayoutPanelTopIcon } from "@/components/icons/LayoutPanelTopIcon";
 import { TimerIcon } from "@/components/icons/TimerIcon";
-import { TactileButton } from "@/components/ui/TactileButton";
 import ScrollFloat from "@/components/ui/ScrollFloat";
 import { LenisProvider } from "@/providers/LenisProvider";
 import "@/styles/features.css";
@@ -18,9 +16,7 @@ export default function Home() {
   const { status } = useSession();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  
-  const heroRef = React.useRef(null);
-  const infraRef = React.useRef(null);
+  const infraRef = useRef<HTMLElement>(null);
   
   const { scrollY } = useScroll();
   const { scrollYProgress: infraProgress } = useScroll({
@@ -54,22 +50,7 @@ export default function Home() {
 
   const isHydrated = mounted && status !== "loading";
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 },
-    },
-  };
 
-  const heroItemVariants: Variants = {
-    hidden: { opacity: 0, y: 0 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
-    },
-  };
 
   return (
     <LenisProvider>
@@ -78,7 +59,6 @@ export default function Home() {
         
         {/* Premium Dark Section (Hero) */}
         <section
-          ref={heroRef}
           className="relative z-10 flex w-full min-h-[100dvh] flex-col items-center justify-center py-12 px-4 md:px-6"
         >
           {/* Background */}
