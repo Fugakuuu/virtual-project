@@ -262,7 +262,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                   {image ? (
                     <img 
                       src={image} 
-                      className="w-full h-full object-cover transition-transform duration-700 scale-105 hover:scale-110" 
+                      className="w-full h-full object-cover transition-transform duration-200" 
                       alt="Avatar" 
                     />
                   ) : (
@@ -275,7 +275,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                 </div>
                 <button 
                   onClick={() => fileInputRef.current?.click()}
-                  className="absolute -bottom-2 -right-2 p-3 sm:p-4 rounded-[100px] bg-[#00684a] border border-[#00684a] text-black shadow-[rgba(0,0,0,0.06)_0px_1px_6px] hover:scale-[1.1] transition-all duration-200 active:scale-[0.85]"
+                  className="absolute -bottom-2 -right-2 p-3 sm:p-4 rounded-[100px] bg-[#00684a] border border-[#00684a] text-black shadow-[rgba(0,0,0,0.06)_0px_1px_6px] transition-all duration-200 active:scale-[0.95]"
                 >
                   <Camera size={16} className="sm:hidden" />
                   <Camera size={20} className="hidden sm:block" />
@@ -464,7 +464,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
               {/* Copy Button */}
               <button 
                 onClick={handleCopy}
-                className={`h-12 sm:h-14 w-full sm:w-48 rounded-[100px] flex items-center justify-center transition-all duration-300 border font-mono font-semibold text-[12px] tracking-[2px] uppercase ${
+                className={`h-12 sm:h-14 w-full sm:w-48 rounded-[100px] flex items-center justify-center transition-all duration-200 border font-mono font-semibold text-[12px] tracking-[2px] uppercase ${
                   copied 
                   ? "bg-[#00ed64] text-black border-[#00ed64] shadow-[0_0_20px_rgba(0,237,100,0.2)]" 
                   : "bg-[#1c2d38] text-[#5c6c75] border-[#3d4f58] hover:bg-[#1eaedb] hover:text-white hover:border-[#1eaedb]"

@@ -29,7 +29,7 @@ export const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-20 lg:w-[280px] bg-forest-black border-r border-white/5 flex flex-col z-40 transition-all duration-700 ease-in-out px-4 py-8">
+    <aside className="fixed left-0 top-0 h-screen w-20 lg:w-[280px] bg-forest-black border-r border-white/5 flex flex-col z-40 transition-all duration-300 ease-in-out px-4 py-8">
       
       {/* Brand Section */}
       <Link href="/" className="flex items-center gap-3 px-4 mb-14 group">
@@ -63,7 +63,7 @@ export const Sidebar = () => {
               key={item.href}
               href={item.href}
               className={cn(
-                "group relative flex items-center gap-4 p-4 rounded-xl transition-all duration-500 overflow-hidden",
+                "group relative flex items-center gap-4 p-4 rounded-xl transition-all duration-150 overflow-hidden",
                 isActive 
                   ? "bg-white/5 border border-white/5 shadow-inner" 
                   : "text-white/40 hover:text-white hover:bg-white/5"
@@ -76,7 +76,7 @@ export const Sidebar = () => {
               <item.icon 
                 size={20} 
                 className={cn(
-                  "transition-all duration-500",
+                  "transition-all duration-150",
                   isActive ? "text-neon-green scale-110" : "group-hover:text-neon-green/60"
                 )} 
               />

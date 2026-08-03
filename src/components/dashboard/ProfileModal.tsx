@@ -118,7 +118,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
       <motion.div 
         initial={{ opacity: 0, scale: 0.98, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
         className="relative w-full max-w-4xl bg-forest-dark border border-teal-gray/20 rounded-[24px] overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar glass-surface"
       >
         <div className="p-10 md:p-14">
@@ -136,7 +136,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
             </div>
             <button 
               onClick={onClose}
-              className="p-3 rounded-xl hover:bg-white/5 text-silver-teal/30 hover:text-white transition-all"
+              className="p-3 rounded-xl hover:bg-white/5 text-silver-teal/30 hover:text-white transition-all duration-200"
             >
               <X size={24} />
             </button>
@@ -160,7 +160,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                 </div>
                 <button 
                   onClick={() => fileInputRef.current?.click()}
-                  className="absolute -bottom-4 -right-4 w-14 h-14 rounded-xl bg-neon-green text-forest-black shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center group"
+                  className="absolute -bottom-4 -right-4 w-14 h-14 rounded-xl bg-neon-green text-forest-black shadow-2xl active:scale-95 transition-all duration-200 flex items-center justify-center group"
                 >
                   <Camera size={20} />
                 </button>
@@ -220,7 +220,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                 <p className="label-technical text-[10px] text-silver-teal/50 px-1">Stats</p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {metrics.map((m, i) => (
-                    <div key={i} className="bg-forest-black/30 p-5 rounded-[10px] border border-teal-gray/10 group hover:border-neon-green/20 transition-all">
+                    <div key={i} className="bg-forest-black/30 p-5 rounded-[10px] border border-teal-gray/10 group hover:border-neon-green/20 transition-all duration-200">
                       <div className="text-silver-teal/20 mb-3 group-hover:text-neon-green transition-colors">
                         {m.icon}
                       </div>
@@ -265,7 +265,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                    <button 
                      onClick={handleCopy}
                      className={cn(
-                       "w-14 h-14 rounded-[10px] flex items-center justify-center transition-all duration-500 active:scale-95",
+                       "w-14 h-14 rounded-[10px] flex items-center justify-center transition-all duration-200 active:scale-95",
                        copied 
                        ? "bg-neon-green text-forest-black shadow-lg shadow-neon-green/20" 
                        : "bg-forest-black border border-teal-gray/20 text-silver-teal/40 hover:text-white"

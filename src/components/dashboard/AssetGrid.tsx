@@ -56,7 +56,7 @@ const SortableAsset = ({ asset, onTrigger, onSettings }: SortableAssetProps) => 
       {...attributes} 
       {...listeners}
       className={cn(
-        "group relative aspect-square rounded-[var(--radius-asset-grid)] overflow-hidden transition-all duration-300",
+        "group relative aspect-square rounded-[var(--radius-asset-grid)] overflow-hidden transition-all duration-200",
         "bg-[#1c2d38] border border-[#3d4f58]",
         isDragging && "scale-105 z-50 ring-2 ring-[#00ed64] shadow-[rgba(0,30,43,0.12)_0px_26px_44px]"
       )}
@@ -68,7 +68,7 @@ const SortableAsset = ({ asset, onTrigger, onSettings }: SortableAssetProps) => 
       >
         {/* Icon Container */}
         <div className="relative mb-4">
-          <div className="w-14 h-14 rounded-xl bg-[#001e2b] border border-[#3d4f58] flex items-center justify-center text-[#b8c4c2] group-hover:text-[#00ed64] group-hover:border-[rgba(0,237,100,0.25)] group-hover:scale-110 transition-all duration-500">
+          <div className="w-14 h-14 rounded-xl bg-[#001e2b] border border-[#3d4f58] flex items-center justify-center text-[#b8c4c2] group-hover:text-[#00ed64] group-hover:border-[rgba(0,237,100,0.25)] transition-all duration-200">
             <Icon size={28} strokeWidth={1.5} />
           </div>
         </div>
@@ -107,7 +107,7 @@ const SortableAsset = ({ asset, onTrigger, onSettings }: SortableAssetProps) => 
 
       {/* Hover Shadow */}
       <div 
-        className="absolute inset-0 rounded-[var(--radius-asset-grid)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        className="absolute inset-0 rounded-[var(--radius-asset-grid)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
         style={{ boxShadow: 'rgba(0, 30, 43, 0.12) 0px 26px 44px, rgba(0, 0, 0, 0.13) 0px 7px 13px' }}
       />
     </div>
@@ -187,9 +187,9 @@ export const AssetGrid = ({
         {/* Add New Asset Button */}
         <button 
           onClick={onAddClick}
-          className="aspect-square border-2 border-dashed border-[#3d4f58] rounded-[var(--radius-asset-grid)] bg-[#001e2b]/50 hover:border-[#00ed64]/40 hover:bg-[rgba(0,237,100,0.03)] text-[#5c6c75] flex flex-col items-center justify-center gap-4 transition-all duration-300 group relative overflow-hidden"
+          className="aspect-square border-2 border-dashed border-[#3d4f58] rounded-[var(--radius-asset-grid)] bg-[#001e2b]/50 hover:border-[#00ed64]/40 hover:bg-[rgba(0,237,100,0.03)] text-[#5c6c75] flex flex-col items-center justify-center gap-4 transition-all duration-200 group relative overflow-hidden"
         >
-          <div className="w-12 h-12 rounded-xl border border-[#3d4f58] bg-[#1c2d38] flex items-center justify-center group-hover:scale-110 group-hover:border-[#00ed64] group-hover:text-[#00ed64] transition-all duration-500">
+          <div className="w-12 h-12 rounded-xl border border-[#3d4f58] bg-[#1c2d38] flex items-center justify-center group-hover:border-[#00ed64] group-hover:text-[#00ed64] transition-all duration-200">
             <Plus size={24} strokeWidth={2.5} />
           </div>
           <span className="font-sans text-[11px] font-semibold uppercase opacity-40 group-hover:opacity-100 group-hover:text-[#b8c4c2] transition-all">

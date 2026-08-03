@@ -13,7 +13,7 @@ const buttonVariants = cva(
         primary:
           "bg-[#00684a] text-white rounded-full shadow-lg shadow-black/20 hover:bg-[#00ed64] hover:text-black",
         neon:
-          "bg-gradient-to-r from-[#00684a] via-[#00ed64] to-[#00684a] bg-[length:200%_auto] text-forest-black rounded-full shadow-[0_0_20px_rgba(0,237,100,0.3)] hover:shadow-[0_0_35px_rgba(0,237,100,0.5)] hover:bg-[100%_0] transition-[background-position,shadow,transform] duration-800",
+          "bg-gradient-to-r from-[#00684a] via-[#00ed64] to-[#00684a] bg-[length:200%_auto] text-forest-black rounded-full shadow-[0_0_20px_rgba(0,237,100,0.3)] hover:shadow-[0_0_35px_rgba(0,237,100,0.5)] hover:bg-[100%_0] transition-[background-position,shadow,transform] duration-300",
         secondary:
           "bg-[#1c2d38] text-silver-teal rounded-full border border-teal-gray/20 hover:text-white hover:bg-[#1eaedb] hover:border-transparent",
         outline:
@@ -63,13 +63,13 @@ export function TactileButton({
         buttonVariants({ variant, size, className }),
         active && "bg-neon-green text-forest-black border-neon-green ring-1 ring-neon-green/20"
       )}
-      whileHover={{ scale: 1.03, y: 0 }}
+      whileHover={{ y: 0 }}
       whileTap={{ scale: 0.97, y: 0 }}
       {...(props as any)}
     >
       {/* Bioluminescent Glow Layer */}
       {(variant === "primary" || variant === "neon") && (
-        <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-neon-green/0 via-white/20 to-neon-green/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-neon-green/0 via-white/20 to-neon-green/0 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
       )}
       
       <span className="relative z-10 flex items-center gap-2">
@@ -79,7 +79,7 @@ export function TactileButton({
       {/* Hover glow aura */}
       <motion.div
         className={cn(
-          "absolute inset-0 -z-20 blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100",
+          "absolute inset-0 -z-20 blur-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100",
           variant === "neon" ? "bg-neon-green/30" : "bg-neon-green/15"
         )}
         initial={false}

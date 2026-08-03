@@ -22,7 +22,7 @@ import confetti from "canvas-confetti";
 // --- Components ---
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00ed64]/50 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+  "inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00ed64]/50 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
   {
     variants: {
       variant: {
@@ -75,7 +75,7 @@ const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLI
         className={cn(
           "flex h-11 w-full rounded-xl border border-[#00ed64]/20 bg-black/20 px-4 py-2 text-[13px] text-white placeholder:text-white/30",
           "focus:outline-none focus:ring-1 focus:ring-[#00ed64]/50 focus:border-[#00ed64]/50",
-          "transition-all duration-800",
+          "transition-all duration-200",
           className
         )}
         ref={ref}
@@ -100,13 +100,13 @@ const variants: Variants = {
     opacity: 1,
     x: 0,
     scale: 1,
-    transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] }
+    transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] }
   },
   exit: (direction: number) => ({
     opacity: 0,
     x: direction > 0 ? -20 : 20,
     scale: 0.95,
-    transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] }
+    transition: { duration: 0.2, ease: [0.25, 1, 0.5, 1] }
   }),
 };
 
@@ -284,12 +284,12 @@ export function AuthComponent() {
   return (
     <motion.div 
       layout
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className="w-full max-w-[350px] mx-auto relative group z-1"
     >
       <motion.div 
         layout
-        className="relative bg-gradient-to-b from-[#00283a]/80 to-[#001e2b] shadow-[0_0_40px_rgba(0,0,0,0.5)] rounded-[24px] overflow-hidden p-8 flex flex-col items-center border border-[#00ed64]/10 text-white transition-colors duration-500"
+        className="relative bg-gradient-to-b from-[#00283a]/80 to-[#001e2b] shadow-[0_0_40px_rgba(0,0,0,0.5)] rounded-[24px] overflow-hidden p-8 flex flex-col items-center border border-[#00ed64]/10 text-white transition-colors duration-300"
       >
         <AnimatePresence mode="wait" custom={direction}>
           {step === "identifier" && (
@@ -311,7 +311,7 @@ export function AuthComponent() {
 
               <form onSubmit={handleIdentifierSubmit} className="w-full flex flex-col gap-3 mb-2">
                 <div className="relative group">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
                   <Input
                     placeholder="name@example.com"
                     type="email"
@@ -389,7 +389,7 @@ export function AuthComponent() {
 
               <form onSubmit={handlePasswordSubmit} className="w-full flex flex-col gap-3">
                 <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
                   <Input
                     placeholder="••••••••"
                     type="password"
@@ -446,7 +446,7 @@ export function AuthComponent() {
 
               <form onSubmit={handleRegisterSubmit} className="w-full flex flex-col gap-3">
                 <div className="relative group">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
                   <Input
                     placeholder="Display Name"
                     type="text"
@@ -459,7 +459,7 @@ export function AuthComponent() {
                 </div>
                 
                 <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-300" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
                   <Input
                     placeholder="Create Password"
                     type="password"

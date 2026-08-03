@@ -38,7 +38,7 @@ export const DashboardHeader = ({ user, onAddClick }: DashboardHeaderProps) => {
             <button
               type="button"
               onClick={onAddClick}
-              className="group inline-flex h-12 w-full items-center gap-3 rounded-[100px] bg-[#00684a] border border-[#00684a] px-6 text-[14px] font-semibold tracking-[0.5px] text-black shadow-[rgba(0,0,0,0.06)_0px_1px_6px] transition-all duration-200 hover:scale-[1.02] active:scale-[0.97] sm:w-auto"
+              className="group inline-flex h-12 w-full items-center gap-3 rounded-[100px] bg-[#00684a] border border-[#00684a] px-6 text-[14px] font-semibold tracking-[0.5px] text-black shadow-[rgba(0,0,0,0.06)_0px_1px_6px] transition-all duration-200 active:scale-[0.97] sm:w-auto"
               title="Add asset"
             >
               <Plus size={18} strokeWidth={2.5} />
