@@ -462,7 +462,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
             <div className="flex flex-col gap-4 sm:gap-5">
               <div className="w-full space-y-2">
                 <label className="font-mono text-[10px] font-semibold uppercase tracking-[2px] text-[#5c6c75] ml-1">
-                  Secure Endpoint
+                  Overlay URL
                 </label>
                 <div className="relative">
                   <div className="w-full min-h-[48px] sm:h-14 bg-[#1c2d38] rounded-[4px] px-3 sm:px-5 flex items-center overflow-hidden border border-[#3d4f58] focus-within:border-[#00ed64]/30 transition-all">
@@ -488,20 +488,6 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                   <span>{copied ? "Copied" : "Copy"}</span>
                 </div>
               </button>
-            </div>
-
-            {/* Security Notice */}
-            <div className="p-4 sm:p-6 bg-red-500/5 rounded-2xl border border-red-500/10 flex items-start gap-3 sm:gap-5">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
-                <Shield size={18} className="sm:hidden" />
-                <Shield size={20} className="hidden sm:block" />
-              </div>
-              <div className="space-y-1 sm:space-y-1.5 min-w-0">
-                <p className="font-mono text-[10px] sm:text-[12px] font-semibold uppercase tracking-[2px] text-red-500">Encryption Notice</p>
-                <p className="font-sans text-[12px] sm:text-[14px] text-red-400/60 font-light leading-relaxed">
-                  This URL contains a unique session key. Sharing this endpoint will compromise your broadcast security.
-                </p>
-              </div>
             </div>
           </div>
         </div>
