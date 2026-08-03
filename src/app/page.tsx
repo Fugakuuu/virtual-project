@@ -158,10 +158,6 @@ export default function Home() {
                   </div>
                   <h3 className="font-archivo text-xl uppercase tracking-tight mt-6 mb-3">{feature.title}</h3>
                   <p className="text-gray-600 font-sans">{feature.desc}</p>
-                  
-                  <span className="tech-id font-mono">
-                    {feature.id}_0{idx + 1}
-                  </span>
                 </div>
               ))}
             </div>

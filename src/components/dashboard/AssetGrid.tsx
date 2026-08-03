@@ -61,11 +61,6 @@ const SortableAsset = ({ asset, onTrigger, onSettings }: SortableAssetProps) => 
         isDragging && "scale-105 z-50 ring-2 ring-[#00ed64] shadow-[rgba(0,30,43,0.12)_0px_26px_44px]"
       )}
     >
-      {/* Subtle corner marker */}
-      <div className="absolute top-3 left-3">
-        <div className="w-1.5 h-1.5 rounded-full bg-[#3d4f58]" />
-      </div>
-
       {/* Interaction Surface */}
       <div 
         onClick={() => onTrigger(asset)}
@@ -78,12 +73,10 @@ const SortableAsset = ({ asset, onTrigger, onSettings }: SortableAssetProps) => 
           </div>
         </div>
         
-        {/* Asset Name — Euclid-style */}
         <h3 className="text-white font-sans text-[14px] font-medium tracking-tight line-clamp-1 mb-1.5">
           {asset.name}
         </h3>
 
-        {/* Type Label — Source Code Pro style */}
         <p className="font-mono text-[10px] font-semibold uppercase tracking-[2px] text-[#5c6c75]">
           {asset.type}
         </p>

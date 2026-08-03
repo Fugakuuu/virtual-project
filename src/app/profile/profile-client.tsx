@@ -254,9 +254,6 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
           className="bg-[#1c2d38] border border-[#3d4f58] rounded-2xl p-5 sm:p-8 md:p-10 relative overflow-hidden"
           style={{ boxShadow: 'rgba(0, 30, 43, 0.12) 0px 26px 44px, rgba(0, 0, 0, 0.13) 0px 7px 13px' }}
         >
-          {/* Glow accent */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#00ed64]/5 blur-[100px] pointer-events-none" />
-          
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 relative z-10">
             {/* Avatar Column */}
             <div className="md:col-span-4 flex flex-col items-center">
@@ -458,7 +455,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                 <div className="relative">
                   <div className="w-full min-h-[48px] sm:h-14 bg-[#1c2d38] rounded-[4px] px-3 sm:px-5 flex items-center overflow-hidden border border-[#3d4f58] focus-within:border-[#00ed64]/30 transition-all">
                     <code className="text-[11px] sm:text-[13px] text-[#00ed64] font-mono truncate select-all font-medium break-all">
-                      {mounted ? overlayUrl : "INITIALIZING_ENDPOINT..."}
+                      {mounted ? overlayUrl : ""}
                     </code>
                   </div>
                 </div>

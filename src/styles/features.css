@@ -70,14 +70,3 @@
   opacity: 0.9;
 }
 
-.feature-card .tech-id {
-  position: absolute;
-  bottom: 24px;
-  right: 32px;
-  font-family: var(--font-mono);;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  opacity: 0.3;
-}

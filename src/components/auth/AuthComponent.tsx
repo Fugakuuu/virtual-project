@@ -329,7 +329,7 @@ export function AuthComponent() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-b from-[#00ed64] to-[#00c854] text-[#001e2b] font-medium py-3 rounded-xl shadow-[0_0_20px_rgba(0,237,100,0.2)] hover:brightness-110 cursor-pointer transition mb-4 mt-2 disabled:opacity-50 flex justify-center items-center h-12"
+                  className="w-full bg-[#00ed64] text-[#001e2b] font-semibold py-3 rounded-xl hover:bg-[#00c854] cursor-pointer transition mb-4 mt-2 disabled:opacity-50 flex justify-center items-center h-12"
                 >
                   {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Continue"}
                 </button>
@@ -414,7 +414,7 @@ export function AuthComponent() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-b from-[#00ed64] to-[#00c854] text-[#001e2b] font-medium py-3 rounded-xl shadow-[0_0_20px_rgba(0,237,100,0.2)] hover:brightness-110 cursor-pointer transition flex justify-center items-center mt-2 h-12"
+                  className="w-full bg-[#00ed64] text-[#001e2b] font-semibold py-3 rounded-xl hover:bg-[#00c854] cursor-pointer transition flex justify-center items-center mt-2 h-12"
                 >
                   {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
                 </button>
@@ -477,7 +477,7 @@ export function AuthComponent() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-b from-[#00ed64] to-[#00c854] text-[#001e2b] font-medium py-3 rounded-xl shadow-[0_0_20px_rgba(0,237,100,0.2)] hover:brightness-110 cursor-pointer transition mt-3 flex justify-center items-center h-12"
+                  className="w-full bg-[#00ed64] text-[#001e2b] font-semibold py-3 rounded-xl hover:bg-[#00c854] cursor-pointer transition mt-3 flex justify-center items-center h-12"
                 >
                   {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Get Started"}
                 </button>
