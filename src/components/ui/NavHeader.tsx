@@ -66,7 +66,7 @@ const Tab = ({
       <a
         href={href}
         onClick={onClick}
-        className="block px-4 py-2 text-[11px] md:text-[13px] font-mono font-bold tracking-widest uppercase text-white/70 hover:text-[#00ed64] transition-colors duration-300"
+        className="block px-4 py-2 text-[11px] md:text-[13px] font-mono font-bold tracking-widest uppercase text-white/70 hover:text-[#00ed64] transition-colors duration-150"
       >
         {children}
       </a>

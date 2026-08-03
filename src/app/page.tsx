@@ -52,7 +52,7 @@ export default function Home() {
 
   return (
     <LenisProvider>
-      <div className={`transition-opacity duration-500 ${isHydrated ? "opacity-100" : "opacity-0"}`}>
+      <div className={`transition-opacity duration-300 ${isHydrated ? "opacity-100" : "opacity-0"}`}>
         <main className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#001e2b]">
         
         {/* Premium Dark Section (Hero) */}
