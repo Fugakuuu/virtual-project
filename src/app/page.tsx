@@ -105,7 +105,9 @@ export default function Home() {
             <p
               className="text-[#8899a6] text-lg md:text-xl max-w-2xl mb-12 leading-relaxed font-sans"
             >
-              oswad
+              Kelola semua kebutuhan live stream dalam satu dashboard yang responsif. <br />
+              Dari trigger overlay sampai muterin soundboard, semuanya bisa dikontrol <br />
+              secara instan tanpa perlu hardware tambahan yang mahal.
             </p>
 
             <div>
@@ -162,19 +164,19 @@ export default function Home() {
               {[
                 {
                   title: "Tactile Control",
-                  desc: "oswad",
+                  desc: "Bikin perangkat apa pun jadi remote kontrol profesional. Layoutnya bisa diatur sesuka hati dengan grid yang responsif, jadi bisa eksekusi aset multimedia dengan nyaman dan akurat tanpa takut salah pencet.",
                   icon: <LayoutPanelTopIcon />,
                   id: "tactile"
                 },
                 {
                   title: "Edge Precision",
-                  desc: "oswad",
+                  desc: "Tidak perlu pusing lagi install plugin OBS yang ribet. Cukup copypaste URL unik ke browser source, dan semua aset visual bakal sinkron secara instan. Arsitekturnya dibuat ringan banget supaya device tetep lancar jaya buat ngegame sambil streaming.",
                   icon: <ZapIcon />,
                   id: "edge"
                 },
                 {
                   title: "Real-time Precision",
-                  desc: "oswad",
+                  desc: "Dibangun pakai teknologi Socket.io supaya responnya secepat kilat. Sekali klik di dashboard, overlay atau suara bakal langsung muncul tanpa jeda. Ga ada lagi drama delay yang bikin momen penting di stream jadi berantakan.",
                   icon: <TimerIcon />,
                   id: "real-time"
                 },
