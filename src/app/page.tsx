@@ -93,16 +93,7 @@ export default function Home() {
             duration={1.3}
             className="w-full max-w-5xl flex flex-col items-center text-center relative z-20"
           >
-            {/* Badge Pill */}
-            <div className="mb-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#00ed64]/15 bg-[#00ed64]/5 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-[#00ed64] backdrop-blur-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00ed64] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00ed64]" />
-                </span>
-                Virtual Stream Deck
-              </div>
-            </div>
+
 
             {/* Headline */}
             <h1 className="font-archivo text-5xl md:text-7xl lg:text-8xl tracking-tight text-white mb-8 leading-[0.95] uppercase">
@@ -114,9 +105,7 @@ export default function Home() {
             <p
               className="text-[#8899a6] text-lg md:text-xl max-w-2xl mb-12 leading-relaxed font-sans"
             >
-              Kelola semua kebutuhan live stream dalam satu dashboard yang responsif. <br />
-              Dari trigger overlay sampai muterin soundboard, semuanya bisa dikontrol <br />
-              secara instan tanpa perlu hardware tambahan yang mahal.
+              oswad
             </p>
 
             <div>
@@ -173,19 +162,19 @@ export default function Home() {
               {[
                 {
                   title: "Tactile Control",
-                  desc: "Bikin perangkat apa pun jadi remote kontrol profesional. Layoutnya bisa diatur sesuka hati dengan grid yang responsif, jadi bisa eksekusi aset multimedia dengan nyaman dan akurat tanpa takut salah pencet.",
+                  desc: "oswad",
                   icon: <LayoutPanelTopIcon />,
                   id: "tactile"
                 },
                 {
                   title: "Edge Precision",
-                  desc: "Tidak perlu pusing lagi install plugin OBS yang ribet. Cukup copypaste URL unik ke browser source, dan semua aset visual bakal sinkron secara instan. Arsitekturnya dibuat ringan banget supaya device tetep lancar jaya buat ngegame sambil streaming.",
+                  desc: "oswad",
                   icon: <ZapIcon />,
                   id: "edge"
                 },
                 {
                   title: "Real-time Precision",
-                  desc: "Dibangun pakai teknologi Socket.io supaya responnya secepat kilat. Sekali klik di dashboard, overlay atau suara bakal langsung muncul tanpa jeda. Ga ada lagi drama delay yang bikin momen penting di stream jadi berantakan.",
+                  desc: "oswad",
                   icon: <TimerIcon />,
                   id: "real-time"
                 },
