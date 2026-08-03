@@ -128,15 +128,11 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
               <div className="w-14 h-14 rounded-xl bg-neon-green/10 flex items-center justify-center text-neon-green border border-neon-green/20">
                 <Fingerprint size={28} />
               </div>
-              <div>
-                <h2 className="text-4xl font-archivo font-bold text-white tracking-tight uppercase">
-                  User <span className="text-neon-green/40">Integrity</span>
-                </h2>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-neon-green animate-pulse" />
-                  <p className="label-technical text-[9px] text-silver-teal/40 uppercase">Connection::Established // Node_Status::Online</p>
-                </div>
-              </div>
+                <div>
+                 <h2 className="text-4xl font-archivo font-bold text-white tracking-tight uppercase">
+                   User <span className="text-neon-green/40">Settings</span>
+                 </h2>
+               </div>
             </div>
             <button 
               onClick={onClose}
@@ -178,18 +174,18 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
               </div>
 
               <div className="space-y-6">
-                <div className="p-6 rounded-[10px] bg-forest-black/50 border border-teal-gray/10 space-y-2">
-                   <p className="label-technical text-[10px] text-silver-teal/30 flex items-center gap-2 uppercase">
-                     <Mail size={12} strokeWidth={2.5} /> VERIFICATION_NODE
-                   </p>
+                 <div className="p-6 rounded-[10px] bg-forest-black/50 border border-teal-gray/10 space-y-2">
+                    <p className="label-technical text-[10px] text-silver-teal/30 flex items-center gap-2 uppercase">
+                      <Mail size={12} strokeWidth={2.5} /> Email
+                    </p>
                    <p className="text-white font-medium text-sm truncate">{user.email || "identity@secure.node"}</p>
                 </div>
                 
                 <div className="grid grid-cols-1 gap-4">
-                  <div className="p-6 rounded-[10px] bg-neon-green/5 border border-neon-green/20 flex items-center justify-between">
-                    <div>
-                      <p className="label-technical text-[9px] text-neon-green/40 uppercase">Access Clearance</p>
-                      <p className="text-white font-archivo font-bold text-lg uppercase">LEVEL_04</p>
+                   <div className="p-6 rounded-[10px] bg-neon-green/5 border border-neon-green/20 flex items-center justify-between">
+                     <div>
+                       <p className="label-technical text-[9px] text-neon-green/40 uppercase">Account</p>
+                       <p className="text-white font-archivo font-bold text-lg uppercase">Active</p>
                     </div>
                     <Shield size={24} className="text-neon-green opacity-40" />
                   </div>
@@ -202,7 +198,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
               {/* Alias Field */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between px-1">
-                  <label className="label-technical text-[10px] text-silver-teal/50 uppercase">Identity Alias</label>
+                  <label className="label-technical text-[10px] text-silver-teal/50 uppercase">Display Name</label>
                   {error && <span className="label-technical text-[10px] text-red-400 uppercase">{error}</span>}
                 </div>
                 <div className="relative group">
@@ -221,7 +217,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
 
               {/* Metrics Grid */}
               <div className="space-y-4">
-                <p className="label-technical text-[10px] text-silver-teal/50 px-1">System Diagnostics</p>
+                <p className="label-technical text-[10px] text-silver-teal/50 px-1">Stats</p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {metrics.map((m, i) => (
                     <div key={i} className="bg-forest-black/30 p-5 rounded-[10px] border border-teal-gray/10 group hover:border-neon-green/20 transition-all">
@@ -243,8 +239,8 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                         <Zap size={20} strokeWidth={2.5} />
                      </div>
                      <div>
-                       <span className="label-technical text-[10px] text-neon-green block uppercase">Stream Pipeline</span>
-                       <span className="label-technical text-[9px] text-silver-teal/20 uppercase tracking-widest">Relay::Secure_Tunnel_v2</span>
+                       <span className="label-technical text-[10px] text-neon-green block uppercase">Overlay URL</span>
+                       <span className="label-technical text-[9px] text-silver-teal/20 uppercase">Browser Source</span>
                      </div>
                   </div>
                   <AnimatePresence>
@@ -256,7 +252,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                         className="flex items-center gap-2 px-3 py-1 bg-neon-green/10 rounded-md border border-neon-green/20"
                       >
                          <Check size={10} strokeWidth={3} className="text-neon-green" />
-                         <span className="label-technical text-[8px] text-neon-green uppercase font-bold">Protocol_Copied</span>
+                          <span className="label-technical text-[8px] text-neon-green uppercase font-bold">Copied</span>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -284,7 +280,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                     <Info size={14} strokeWidth={2.5} />
                   </div>
                   <div>
-                    <p className="label-technical text-[10px] text-neon-green/60 uppercase mb-1">Security Directive</p>
+                     <p className="label-technical text-[10px] text-neon-green/60 uppercase mb-1">Note</p>
                     <p className="text-[10px] text-silver-teal/40 leading-relaxed font-medium">
                       Sharing this tunnel endpoint allows external control of your display nodes. Only provide this to high-trust streaming instances.
                     </p>

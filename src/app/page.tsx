@@ -40,9 +40,7 @@ export default function Home() {
 
   // Infrastructure Smooth Transforms
   const infraTitleY = useTransform(infraProgress, [0.5, 1], [0, -60]);
-  const infraTitleOpacity = useTransform(infraProgress, [0, 0.5], [1, 1]);
   const smoothInfraY = useSpring(infraTitleY, springConfig);
-  const smoothInfraOpacity = useSpring(infraTitleOpacity, springConfig);
 
   useEffect(() => {
     setMounted(true);
@@ -110,7 +108,7 @@ export default function Home() {
           
           <div className="mx-auto w-full max-w-7xl flex flex-col items-center">
             <motion.div
-              style={{ y: smoothInfraY, opacity: smoothInfraOpacity }}
+              style={{ y: smoothInfraY }}
               className="mb-10"
             >
               <span className="font-mono text-xs font-bold uppercase tracking-[0.4em] text-[#00684a] label-technical">

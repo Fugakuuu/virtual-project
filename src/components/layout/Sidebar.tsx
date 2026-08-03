@@ -15,13 +15,13 @@ const NAV_ITEMS = [
     label: "Dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
-    description: "MODULE_01"
+    description: "Assets & Controls"
   },
   {
     label: "Profile",
     icon: UserCircle,
     href: "/profile",
-    description: "IDENTITY_SEC"
+    description: "Settings"
   }
 ];
 
@@ -53,11 +53,8 @@ export const Sidebar = () => {
         </div>
       </Link>
 
-      {/* Navigation Matrix */}
+      {/* Navigation */}
       <nav className="flex-1 space-y-2">
-        <div className="hidden lg:flex items-center gap-3 px-4 mb-6 opacity-20">
-          <p className="text-[10px] font-mono font-bold tracking-[0.3em] text-white uppercase">Menu // System</p>
-        </div>
         
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href;
@@ -95,17 +92,14 @@ export const Sidebar = () => {
         })}
       </nav>
 
-      {/* Node Info / Bottom Section */}
+      {/* Bottom Section */}
       <div className="pt-8 border-t border-white/5">
         <div className="p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center gap-4 group transition-all hover:border-neon-green/20 cursor-default">
           <div className="w-10 h-10 rounded-xl bg-forest-black flex items-center justify-center overflow-hidden border border-white/10 group-hover:border-neon-green/30 transition-all shrink-0 shadow-2xl">
-            <div className="w-1.5 h-1.5 rounded-full bg-neon-green animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-neon-green" />
           </div>
           <div className="hidden lg:block flex-1 overflow-hidden">
-            <div className="flex items-center justify-between">
-              <p className="text-[8px] font-mono font-bold text-white/20 tracking-widest">NODE_READY</p>
-            </div>
-            <p className="font-archivo font-bold text-[11px] text-white/90 truncate uppercase tracking-widest mt-1">OPERATOR_LOGGED</p>
+            <p className="font-archivo font-bold text-[11px] text-white/60 truncate uppercase tracking-tight">Connected</p>
           </div>
         </div>
       </div>

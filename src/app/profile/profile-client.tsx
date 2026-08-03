@@ -461,7 +461,6 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                       {mounted ? overlayUrl : "INITIALIZING_ENDPOINT..."}
                     </code>
                   </div>
-                  <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#00ed64] animate-ping opacity-20 pointer-events-none" />
                 </div>
               </div>
 
