@@ -246,12 +246,6 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
             <span className="text-[#00ed64] border-[#00ed64] pb-1">Settings</span>
           </h1>
         </div>
-        <div className="mt-4 md:mt-0 flex items-center gap-3 bg-[#1c2d38] px-4 sm:px-5 py-2 sm:py-2.5 rounded-[100px] border border-[#3d4f58]">
-          <div className="h-2 w-2 rounded-full bg-[#00ed64] animate-pulse shadow-[0_0_8px_rgba(0,237,100,0.4)]" />
-          <span className="font-mono text-[9px] font-semibold text-[#00ed64] uppercase tracking-[2.5px]">
-            Auth Live
-          </span>
-        </div>
       </div>
 
       <div className="space-y-6 sm:space-y-10 max-w-5xl mx-auto">
@@ -452,9 +446,6 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                 <span className="text-[#00ed64] border-b-2 border-[#00ed64] pb-0.5">Integration</span>
               </h2>
             </div>
-            <p className="font-mono text-[10px] sm:text-[14px] font-medium text-[#5c6c75] uppercase tracking-[2px] ml-[42px] sm:ml-[52px]">
-              Browser Source // Stream Studio
-            </p>
           </div>
 
           <div className="p-4 sm:p-6 rounded-2xl bg-[#001e2b] border border-[#3d4f58] space-y-5 sm:space-y-8">
