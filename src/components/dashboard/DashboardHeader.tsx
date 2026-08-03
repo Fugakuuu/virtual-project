@@ -17,20 +17,12 @@ export const DashboardHeader = ({ user, onAddClick }: DashboardHeaderProps) => {
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           {/* Left: Title + Status */}
           <div className="flex items-start gap-4 sm:items-center">
-            
             {/* Text */}
             <div className="min-w-0">
               <h1 className="font-archivo text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl uppercase">
                 Dashboard
               </h1>
               <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
-                {/* Status Indicator */}
-                <div className="flex items-center gap-2 rounded-[100px] bg-[#001e2b] border border-[#3d4f58] px-3 py-1">
-                  <div className="h-1.5 w-1.5 rounded-full bg-[#00ed64] animate-pulse shadow-[0_0_8px_rgba(0,237,100,0.4)]" />
-                  <span className="font-mono text-[9px] font-semibold uppercase tracking-[2.5px] text-[#00ed64]">
-                    Active
-                  </span>
-                </div>
                 {/* User Name */}
                 {user.name && (
                   <span className="font-mono text-[14px] uppercase tracking-[2px] text-[#5c6c75]">
