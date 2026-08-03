@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       to: [email],
       subject: "Your Verification Code",
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; text-align: center;">
+        <div style="font-family: 'Archivo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; text-align: center;">
           <h2 style="color: #00ed64; background-color: #001e2b; padding: 10px; border-radius: 8px;">Virtual Stream Deck</h2>
           <p style="font-size: 16px; color: #333;">Welcome! Here is your verification code to complete your registration:</p>
           <div style="margin: 30px 0;">

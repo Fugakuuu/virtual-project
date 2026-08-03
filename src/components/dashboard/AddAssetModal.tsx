@@ -279,7 +279,7 @@ export const AddAssetModal = ({ onClose, onSuccess }: AddAssetModalProps) => {
                 {/* Drag overlay indicator */}
                 {isDragging && (
                   <div className="absolute inset-0 rounded-2xl flex flex-col items-center justify-center bg-[rgba(0,237,100,0.04)] z-10 pointer-events-none">
-                    <Upload size={32} className="text-[#00ed64] mb-2 animate-bounce" />
+                    <Upload size={32} className="text-[#00ed64] mb-2 animate-pulse" />
                     <span className="font-mono text-[12px] font-semibold text-[#00ed64] uppercase tracking-[2px]">
                       Drop file here
                     </span>
