@@ -77,7 +77,7 @@ const SortableAsset = ({ asset, onTrigger, onSettings }: SortableAssetProps) => 
           {asset.name}
         </h3>
 
-        <p className="font-mono text-[10px] font-semibold uppercase tracking-[2px] text-[#5c6c75]">
+        <p className="font-mono text-[11px] font-semibold uppercase tracking-[2px] text-[#5c6c75]">
           {asset.type}
         </p>
       </div>
@@ -192,7 +192,7 @@ export const AssetGrid = ({
           <div className="w-12 h-12 rounded-xl border border-[#3d4f58] bg-[#1c2d38] flex items-center justify-center group-hover:scale-110 group-hover:border-[#00ed64] group-hover:text-[#00ed64] transition-all duration-500">
             <Plus size={24} strokeWidth={2.5} />
           </div>
-          <span className="font-mono text-[10px] font-semibold uppercase tracking-[2px] opacity-40 group-hover:opacity-100 group-hover:text-[#b8c4c2] transition-all">
+          <span className="font-sans text-[11px] font-semibold uppercase opacity-40 group-hover:opacity-100 group-hover:text-[#b8c4c2] transition-all">
             Add Asset
           </span>
         </button>

@@ -269,7 +269,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                     <div className="flex flex-col items-center gap-2 sm:gap-3 text-[#5c6c75]">
                       <User size={40} className="sm:hidden" strokeWidth={1} />
                       <User size={64} className="hidden sm:block" strokeWidth={1} />
-                      <span className="font-mono text-[9px] font-semibold uppercase tracking-[2px]">No Image</span>
+                      <span className="font-sans text-[11px] font-medium uppercase">No Image</span>
                     </div>
                   )}
                 </div>
@@ -288,7 +288,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
             <div className="md:col-span-8 space-y-5 sm:space-y-8">
               {/* Display Name Field */}
               <div className="space-y-2 sm:space-y-3">
-                <label className="font-mono text-[11px] sm:text-[14px] font-medium uppercase tracking-[2px] text-[#5c6c75] flex items-center gap-2">
+                <label className="font-sans text-[12px] sm:text-[13px] font-medium uppercase tracking-wide text-[#5c6c75] flex items-center gap-2">
                   Display Name
                 </label>
                 <div className="relative">
@@ -308,7 +308,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
 
               {/* Email Field (Read-only) */}
               <div className="space-y-2 sm:space-y-3">
-                <label className="font-mono text-[11px] sm:text-[14px] font-medium uppercase tracking-[2px] text-[#5c6c75] flex items-center gap-2">
+                <label className="font-sans text-[12px] sm:text-[13px] font-medium uppercase tracking-wide text-[#5c6c75] flex items-center gap-2">
                   Primary Email
                 </label>
                 <div className="w-full min-h-[48px] sm:min-h-[56px] px-4 sm:px-6 py-3 sm:py-0 bg-[#001e2b] border border-[#3d4f58] rounded-[4px] flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0">
@@ -320,7 +320,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                   {isVerified ? (
                     <div className="sm:ml-auto px-3 py-1 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2 self-start sm:self-auto shrink-0">
                       <ShieldCheck size={12} className="text-[#00ed64]" />
-                      <span className="font-mono text-[9px] font-semibold text-[#00ed64] uppercase tracking-[2px]">Verified</span>
+                      <span className="font-sans text-[11px] font-semibold text-[#00ed64] uppercase">Verified</span>
                     </div>
                   ) : (
                     <button
@@ -329,7 +329,7 @@ export const ProfileClient = ({ user }: ProfileClientProps) => {
                       className="sm:ml-auto px-4 py-1.5 bg-[#1c2d38] rounded-[100px] border border-[#3d4f58] flex items-center gap-2 hover:bg-[#253945] transition-colors disabled:opacity-50 self-start sm:self-auto shrink-0"
                     >
                       {verifying && !otpStep ? <Loader2 size={12} className="animate-spin text-[#00ed64]" /> : <Shield size={12} className="text-[#5c6c75]" />}
-                      <span className="font-mono text-[9px] font-semibold text-white uppercase tracking-[2px]">
+                      <span className="font-sans text-[11px] font-semibold text-white uppercase">
                         {verifying && !otpStep ? 'Sending...' : 'Verify Email'}
                       </span>
                     </button>

@@ -85,7 +85,6 @@ export const Sidebar = () => {
                 <p className={cn("font-archivo font-bold text-[13px] tracking-tight uppercase leading-none", isActive ? "text-white" : "group-hover:text-white")}>
                   {item.label}
                 </p>
-                <p className="text-[9px] font-mono font-bold text-white/20 mt-1.5 tracking-widest">{item.description}</p>
               </div>
             </Link>
           );

@@ -184,7 +184,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                 <div className="grid grid-cols-1 gap-4">
                    <div className="p-6 rounded-[10px] bg-neon-green/5 border border-neon-green/20 flex items-center justify-between">
                      <div>
-                       <p className="label-technical text-[9px] text-neon-green/40 uppercase">Account</p>
+                       <p className="label-technical text-[11px] text-neon-green/40 uppercase">Account</p>
                        <p className="text-white font-archivo font-bold text-lg uppercase">Active</p>
                     </div>
                     <Shield size={24} className="text-neon-green opacity-40" />
@@ -225,7 +225,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                         {m.icon}
                       </div>
                       <p className="text-xl font-bold text-white tracking-tight leading-none mb-2">{m.value}</p>
-                      <p className="label-technical text-[9px] text-silver-teal/30 uppercase">{m.label}</p>
+                      <p className="label-technical text-[11px] text-silver-teal/30 uppercase">{m.label}</p>
                     </div>
                   ))}
                 </div>
@@ -240,7 +240,7 @@ export const ProfileModal = ({ user, onClose, onUpdate }: ProfileModalProps) => 
                      </div>
                      <div>
                        <span className="label-technical text-[10px] text-neon-green block uppercase">Overlay URL</span>
-                       <span className="label-technical text-[9px] text-silver-teal/20 uppercase">Browser Source</span>
+                       <span className="label-technical text-[11px] text-silver-teal/20 uppercase">Browser Source</span>
                      </div>
                   </div>
                   <AnimatePresence>

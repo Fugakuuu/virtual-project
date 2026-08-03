@@ -25,7 +25,7 @@ export const DashboardHeader = ({ user, onAddClick }: DashboardHeaderProps) => {
               <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
                 {/* User Name */}
                 {user.name && (
-                  <span className="font-mono text-[14px] uppercase tracking-[2px] text-[#5c6c75]">
+                  <span className="font-sans text-[13px] font-medium tracking-tight text-[#5c6c75]">
                     {user.name}
                   </span>
                 )}

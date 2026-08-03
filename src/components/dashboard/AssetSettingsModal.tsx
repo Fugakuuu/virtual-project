@@ -129,7 +129,7 @@ export const AssetSettingsModal = ({
                   <button 
                     onClick={() => setSettings({ ...settings, duration: settings.duration === null ? 5 : null })}
                     className={cn(
-                      "font-mono text-[9px] font-semibold px-3 py-1 rounded-[100px] border transition-all uppercase tracking-[2px]",
+                      "font-mono text-[11px] font-semibold px-3 py-1 rounded-[100px] border transition-all uppercase tracking-[2px]",
                       settings.duration !== null 
                         ? "border-[#00ed64] text-[#00ed64] bg-[rgba(0,237,100,0.05)]" 
                         : "border-[#3d4f58] text-[#5c6c75]"
@@ -191,7 +191,7 @@ export const AssetSettingsModal = ({
                   <button 
                     onClick={() => setSettings({ ...settings, chromaKey: !settings.chromaKey })}
                     className={cn(
-                      "font-mono text-[9px] font-semibold px-3 py-1 rounded-[100px] border transition-all uppercase tracking-[2px]",
+                      "font-mono text-[11px] font-semibold px-3 py-1 rounded-[100px] border transition-all uppercase tracking-[2px]",
                       settings.chromaKey 
                         ? "border-[#00ed64] text-[#00ed64] bg-[rgba(0,237,100,0.05)]" 
                         : "border-[#3d4f58] text-[#5c6c75]"

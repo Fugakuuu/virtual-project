@@ -225,7 +225,7 @@ export const AddAssetModal = ({ onClose, onSuccess }: AddAssetModalProps) => {
                   <button 
                     onClick={() => setAutoHide(!autoHide)}
                     className={cn(
-                      "font-mono text-[9px] font-semibold px-3 py-1 rounded-[100px] border transition-all uppercase tracking-[2px]",
+                      "font-mono text-[11px] font-semibold px-3 py-1 rounded-[100px] border transition-all uppercase tracking-[2px]",
                       autoHide 
                         ? "border-[#00ed64] text-[#00ed64] bg-[rgba(0,237,100,0.05)]" 
                         : "border-[#3d4f58] text-[#5c6c75]"
@@ -302,7 +302,7 @@ export const AddAssetModal = ({ onClose, onSuccess }: AddAssetModalProps) => {
                     )}>
                       {file ? file.name : "Click or drag file here"}
                     </span>
-                    <span className="font-mono text-[9px] text-[#3d4f58] uppercase tracking-[2px]">
+                    <span className="font-sans text-[11px] text-[#3d4f58] uppercase">
                       {file 
                         ? `${(file.size / 1024 / 1024).toFixed(2)} MB · ${file.type || "unknown"}` 
                         : "Drag from file manager or click to browse"
