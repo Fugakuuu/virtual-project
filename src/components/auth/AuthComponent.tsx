@@ -224,6 +224,7 @@ export function AuthComponent() {
           origin: { y: 0.6 },
           colors: ["#00ed64", "#ffffff", "#00684a"],
         });
+        clearAuthSession();
         router.push("/dashboard");
       }
     } catch (err: any) {
@@ -260,6 +261,7 @@ export function AuthComponent() {
           origin: { y: 0.6 },
           colors: ["#00ed64", "#ffffff", "#00684a"],
         });
+        clearAuthSession();
         await signIn("credentials", {
           email,
           password,
@@ -337,6 +339,7 @@ export function AuthComponent() {
           origin: { y: 0.6 },
           colors: ["#00ed64", "#ffffff", "#00684a"],
         });
+        clearAuthSession();
         // Try logging in with the new password
         await signIn("credentials", {
           email,
@@ -356,7 +359,14 @@ export function AuthComponent() {
   };
 
   const handleSocialSignIn = (provider: string) => {
+    clearAuthSession();
     signIn(provider, { callbackUrl: "/dashboard" });
+  };
+
+  const clearAuthSession = () => {
+    sessionStorage.removeItem("authStep");
+    sessionStorage.removeItem("authEmail");
+    sessionStorage.removeItem("authEmailInfo");
   };
 
   const reset = () => {
@@ -364,9 +374,7 @@ export function AuthComponent() {
     setEmailInfo(null);
     setPassword("");
     setOtp("");
-    sessionStorage.removeItem("authStep");
-    sessionStorage.removeItem("authEmail");
-    sessionStorage.removeItem("authEmailInfo");
+    clearAuthSession();
   };
 
   if (!mounted) return null;
