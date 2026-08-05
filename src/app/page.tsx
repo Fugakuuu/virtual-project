@@ -74,10 +74,16 @@ export default function Home() {
 
 
             {/* Headline */}
-            <h1 className="font-archivo text-5xl md:text-7xl lg:text-8xl tracking-tight text-white mb-8 leading-[0.95] uppercase">
+            <h1 className="font-archivo text-5xl md:text-7xl lg:text-8xl tracking-tight text-white mb-6 leading-[0.95] uppercase">
               The Stream Deck Engine,{" "}<br />
               <span className="text-white/60">With Unlimited Potential.</span>
             </h1>
+            
+            {/* Subheadline */}
+            <p className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+              Kendalikan <span className="text-white font-medium">live stream</span> kamu langsung dari browser. Tanpa install aplikasi ribet, gratis, dan bisa diakses dari device apa aja.
+            </p>
+
             <div>
               <button 
                 className="btn-modern-hero"
