@@ -112,7 +112,7 @@ export default function Home() {
               className="mb-10"
             >
               <span className="font-mono text-xs font-bold uppercase tracking-[0.4em] text-[#00684a] label-technical">
-                Infrastructure
+                Performa
               </span>
             </motion.div>
 
@@ -123,28 +123,28 @@ export default function Home() {
               startY={40}
               className="mb-12 max-w-4xl font-archivo text-[28px] font-bold leading-[1.0] tracking-tight text-[#001e2b] sm:mb-16 sm:text-[36px] md:text-[44px] lg:text-[54px] uppercase"
             >
-              Architected for Performance. 
+              Anti ngelag.
               <br />
-              Designed for Creators.
+              Anti ribet.
             </ScrollFloat>
 
             <div className="feature-cards-container mb-24">
               {[
                 {
-                  title: "Tactile Control",
-                  desc: "Bikin perangkat apa pun jadi remote kontrol profesional. Layoutnya bisa diatur sesuka hati dengan grid yang responsif, jadi bisa eksekusi aset multimedia dengan nyaman dan akurat tanpa takut salah pencet.",
+                  title: "Remote Control",
+                  desc: "Jadikan HP atau tabletmu sebagai remote. Layout fleksibel, tombol gampang dipencet waktu lagi live.",
                   icon: <LayoutPanelTopIcon />,
                   id: "tactile"
                 },
                 {
-                  title: "Edge Precision",
-                  desc: "Tidak perlu pusing lagi install plugin OBS yang ribet. Cukup copypaste URL unik ke browser source, dan semua aset visual bakal sinkron secara instan. Arsitekturnya dibuat ringan banget supaya device tetep lancar jaya buat ngegame sambil streaming.",
+                  title: "Tanpa Plugin",
+                  desc: "Tinggal copy-paste URL ke browser source OBS. Ringan dan nggak bikin PC kamu lemot.",
                   icon: <ZapIcon />,
                   id: "edge"
                 },
                 {
-                  title: "Real-time Precision",
-                  desc: "Dibangun pakai teknologi Socket.io supaya responnya secepat kilat. Sekali klik di dashboard, overlay atau suara bakal langsung muncul tanpa jeda. Ga ada lagi drama delay yang bikin momen penting di stream jadi berantakan.",
+                  title: "Real-time",
+                  desc: "Sekali klik di dashboard, overlay dan soundboard langsung muncul di stream tanpa delay.",
                   icon: <TimerIcon />,
                   id: "real-time"
                 },
