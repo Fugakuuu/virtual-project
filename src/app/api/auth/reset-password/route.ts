@@ -12,6 +12,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Data Anda belum lengkap. Pastikan email, kode OTP, dan kata sandi baru telah diisi." }, { status: 400 });
     }
 
+    if (newPassword.length < 6) {
+      return NextResponse.json({ error: "Kata sandi harus minimal 6 karakter." }, { status: 400 });
+    }
+
     // Verify OTP
     const verificationToken = await prisma.verificationToken.findFirst({
       where: {

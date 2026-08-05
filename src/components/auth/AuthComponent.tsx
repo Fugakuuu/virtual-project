@@ -13,7 +13,9 @@ import {
   Github, 
   User,
   ShieldCheck,
-  AlertCircle
+  AlertCircle,
+  Eye,
+  EyeOff
 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -114,7 +116,8 @@ export function AuthComponent() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState<Step>("identifier");
-  const [direction, setDirection] = useState(1);
+  const [direction, setDirection] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -164,6 +167,7 @@ export function AuthComponent() {
     setDirection(dir);
     setStep(newStep);
     setError(null);
+    setShowPassword(false);
   };
 
   const handleIdentifierSubmit = async (e: React.FormEvent) => {
@@ -240,6 +244,11 @@ export function AuthComponent() {
 
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password.length < 6) {
+      setError("Kata sandi harus minimal 6 karakter.");
+      return;
+    }
+    
     setLoading(true);
     setError(null);
 
@@ -317,6 +326,10 @@ export function AuthComponent() {
       setError("OTP dan kata sandi baru diperlukan.");
       return;
     }
+    if (password.length < 6) {
+      setError("Kata sandi harus minimal 6 karakter.");
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -374,6 +387,7 @@ export function AuthComponent() {
     setEmailInfo(null);
     setPassword("");
     setOtp("");
+    setShowPassword(false);
     clearAuthSession();
   };
 
@@ -490,13 +504,20 @@ export function AuthComponent() {
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
                   <Input
                     placeholder="••••••••"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-11"
+                    className="pl-11 pr-11"
                     autoFocus
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-white/30 hover:text-white/70 transition-colors focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
 
                 <div className="w-full flex justify-end mb-1">
@@ -560,12 +581,19 @@ export function AuthComponent() {
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
                   <Input
                     placeholder="Create Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-11"
+                    className="pl-11 pr-11"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-white/30 hover:text-white/70 transition-colors focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
 
                 {error && (
@@ -722,12 +750,19 @@ export function AuthComponent() {
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
                   <Input
                     placeholder="New Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-11"
+                    className="pl-11 pr-11"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-white/30 hover:text-white/70 transition-colors focus:outline-none"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
 
                 {error && (

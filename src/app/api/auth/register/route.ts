@@ -12,6 +12,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Harap lengkapi isian email dan kata sandi Anda." }, { status: 400 });
     }
 
+    if (password.length < 6) {
+      return NextResponse.json({ error: "Kata sandi harus minimal 6 karakter." }, { status: 400 });
+    }
+
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
