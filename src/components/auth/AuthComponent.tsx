@@ -20,6 +20,11 @@ import {
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import confetti from "canvas-confetti";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 // --- Components ---
 
@@ -732,18 +737,24 @@ export function AuthComponent() {
               </p>
 
               <form onSubmit={handleResetPassword} className="w-full flex flex-col gap-3">
-                <div className="relative group">
-                  <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
-                  <Input
-                    placeholder="6-digit code"
-                    type="text"
-                    maxLength={6}
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="pl-11 tracking-widest text-center"
-                    required
+                <div className="w-full flex justify-center mb-4 mt-2">
+                  <InputOTP 
+                    maxLength={6} 
+                    value={otp} 
+                    onChange={setOtp}
+                    className="w-full"
                     autoFocus
-                  />
+                  >
+                    <InputOTPGroup className="flex justify-between gap-1 sm:gap-2 w-full *:data-[active=true]:ring-0 *:data-[slot=input-otp-slot]:rounded-none *:data-[slot=input-otp-slot]:border-0 *:data-[slot=input-otp-slot]:shadow-none *:dark:data-[slot=input-otp-slot]:bg-transparent">
+                      {[0, 1, 2, 3, 4, 5].map((i) => (
+                        <InputOTPSlot
+                          key={i}
+                          index={i}
+                          className="text-white/80 before:bg-white/20 after:bg-[#00ed64] data-[filled=true]:text-[#00ed64] relative h-10 w-10 sm:h-12 sm:w-12 text-center text-lg transition-colors duration-200 before:absolute before:bottom-0 before:left-0 before:h-[2px] before:w-full after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:transition-transform after:duration-300 focus-visible:outline-none data-[active=true]:after:scale-x-100 data-[filled=true]:after:!scale-x-100 data-[filled=true]:after:scale-x-100 data-[filled=true]:after:transition-none"
+                        />
+                      ))}
+                    </InputOTPGroup>
+                  </InputOTP>
                 </div>
 
                 <div className="relative group mt-1">
