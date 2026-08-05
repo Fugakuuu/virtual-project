@@ -88,7 +88,7 @@ Input.displayName = "Input";
 
 // --- Auth Component Logic ---
 
-type Step = "identifier" | "password" | "register" | "social-redirect";
+type Step = "identifier" | "password" | "register" | "social-redirect" | "forgot-password" | "reset-password";
 
 const variants: Variants = {
   initial: (direction: number) => ({
@@ -192,8 +192,12 @@ export function AuthComponent() {
       } else {
         navigateTo("register", 1);
       }
-    } catch (err) {
-      setError("Failed to check email status. Please try again.");
+    } catch (err: any) {
+      if (err instanceof TypeError) {
+        setError("Gagal menghubungi server. Pastikan Anda terhubung ke internet.");
+      } else {
+        setError("Gagal memeriksa status email karena kendala teknis.");
+      }
     } finally {
       setLoading(false);
     }
@@ -212,7 +216,7 @@ export function AuthComponent() {
       });
 
       if (result?.error) {
-        setError("Invalid password. Please try again.");
+        setError("Kata sandi tidak valid. Silakan coba lagi.");
       } else {
         confetti({
           particleCount: 100,
@@ -222,8 +226,12 @@ export function AuthComponent() {
         });
         router.push("/dashboard");
       }
-    } catch (err) {
-      setError("Login failed. Unexpected error.");
+    } catch (err: any) {
+      if (err instanceof TypeError) {
+        setError("Koneksi terputus. Pastikan Anda terhubung ke internet.");
+      } else {
+        setError("Proses masuk gagal karena kendala pada sistem autentikasi.");
+      }
     } finally {
       setLoading(false);
     }
@@ -244,7 +252,7 @@ export function AuthComponent() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Registration failed.");
+        setError(data.error || "Pendaftaran gagal.");
       } else {
         confetti({
           particleCount: 100,
@@ -258,8 +266,90 @@ export function AuthComponent() {
           callbackUrl: "/dashboard",
         });
       }
-    } catch (err) {
-      setError("Registration failed. Unexpected error.");
+    } catch (err: any) {
+      if (err instanceof TypeError) {
+        setError("Pendaftaran terhenti. Silakan periksa koneksi internet Anda.");
+      } else {
+        setError("Pendaftaran gagal diproses oleh sistem. Silakan coba beberapa saat lagi.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, type: "reset" }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Gagal mengirim kode reset.");
+      } else {
+        navigateTo("reset-password", 1);
+      }
+    } catch (err: any) {
+      if (err instanceof TypeError) {
+        setError("Gagal mengirim permintaan. Periksa koneksi internet Anda.");
+      } else {
+        setError("Tidak dapat mengirim kode reset karena gangguan pada server email.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!otp || !password) {
+      setError("OTP dan kata sandi baru diperlukan.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp, newPassword: password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Gagal mereset kata sandi.");
+      } else {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ["#00ed64", "#ffffff", "#00684a"],
+        });
+        // Try logging in with the new password
+        await signIn("credentials", {
+          email,
+          password,
+          callbackUrl: "/dashboard",
+        });
+      }
+    } catch (err: any) {
+      if (err instanceof TypeError) {
+        setError("Koneksi terputus. Pastikan Anda terhubung ke jaringan internet.");
+      } else {
+        setError("Proses reset kata sandi gagal diproses oleh sistem.");
+      }
     } finally {
       setLoading(false);
     }
@@ -402,7 +492,7 @@ export function AuthComponent() {
                 </div>
 
                 <div className="w-full flex justify-end mb-1">
-                  <button type="button" className="text-xs text-[#00ed64]/80 hover:text-[#00ed64] hover:underline font-medium">
+                  <button type="button" onClick={() => navigateTo("forgot-password", 1)} className="text-xs text-[#00ed64]/80 hover:text-[#00ed64] hover:underline font-medium">
                     Forgot password?
                   </button>
                 </div>
@@ -534,6 +624,116 @@ export function AuthComponent() {
                   </button>
                 )}
               </div>
+            </motion.div>
+          )}
+
+          {step === "forgot-password" && (
+            <motion.div
+              key="forgot-password"
+              custom={direction}
+              variants={variants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="w-full flex flex-col items-center relative"
+            >
+              <button onClick={() => navigateTo("password", -1)} className="absolute -left-2 -top-2 text-white/40 hover:text-white text-xs flex items-center gap-1 transition-colors">
+                <ArrowLeft size={14} /> Back
+              </button>
+              
+              <h2 className="text-2xl font-bold uppercase font-archivo mb-2 text-center text-white mt-10">
+                Reset Password
+              </h2>
+              <p className="text-white/50 text-[13px] mb-6 text-center">
+                We'll send a verification code to this email to reset your password.
+              </p>
+
+              <form onSubmit={handleForgotPassword} className="w-full flex flex-col gap-3">
+                <div className="relative group">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
+                  <Input
+                    type="email"
+                    value={email}
+                    readOnly
+                    className="pl-11 opacity-70 cursor-not-allowed"
+                  />
+                </div>
+
+                {error && (
+                  <div className="text-xs text-red-400 text-left mb-1">{error}</div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#00ed64] text-[#001e2b] font-semibold py-3 rounded-xl hover:bg-[#00c854] cursor-pointer transition mt-3 flex justify-center items-center h-12"
+                >
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Send Reset Code"}
+                </button>
+              </form>
+            </motion.div>
+          )}
+
+          {step === "reset-password" && (
+            <motion.div
+              key="reset-password"
+              custom={direction}
+              variants={variants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="w-full flex flex-col items-center relative"
+            >
+              <button onClick={() => navigateTo("forgot-password", -1)} className="absolute -left-2 -top-2 text-white/40 hover:text-white text-xs flex items-center gap-1 transition-colors">
+                <ArrowLeft size={14} /> Back
+              </button>
+              
+              <h2 className="text-2xl font-bold uppercase font-archivo mb-2 text-center text-white mt-10">
+                New Password
+              </h2>
+              <p className="text-white/50 text-[13px] mb-6 text-center">
+                Enter the 6-digit code sent to your email and your new password.
+              </p>
+
+              <form onSubmit={handleResetPassword} className="w-full flex flex-col gap-3">
+                <div className="relative group">
+                  <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
+                  <Input
+                    placeholder="6-digit code"
+                    type="text"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="pl-11 tracking-widest text-center"
+                    required
+                    autoFocus
+                  />
+                </div>
+
+                <div className="relative group mt-1">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#00ed64] transition-colors duration-200" />
+                  <Input
+                    placeholder="New Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-11"
+                    required
+                  />
+                </div>
+
+                {error && (
+                  <div className="text-xs text-red-400 text-left mb-1">{error}</div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#00ed64] text-[#001e2b] font-semibold py-3 rounded-xl hover:bg-[#00c854] cursor-pointer transition mt-3 flex justify-center items-center h-12"
+                >
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Reset & Login"}
+                </button>
+              </form>
             </motion.div>
           )}
         </AnimatePresence>

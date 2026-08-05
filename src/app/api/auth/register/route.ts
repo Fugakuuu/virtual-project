@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const { email, password, name } = await req.json();
 
     if (!email || !password) {
-      return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
+      return NextResponse.json({ error: "Harap lengkapi isian email dan kata sandi Anda." }, { status: 400 });
     }
 
     const existingUser = await prisma.user.findUnique({
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     if (existingUser) {
       if (existingUser.password) {
-        return NextResponse.json({ error: "User already exists" }, { status: 400 });
+        return NextResponse.json({ error: "Email tersebut telah digunakan oleh pengguna lain. Gunakan email yang berbeda." }, { status: 400 });
       } else {
         // User exists but only via OAuth. We can add a password to them.
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -43,6 +43,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "User registered successfully", userId: user.id });
   } catch (error) {
     console.error("Registration error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Gagal menyimpan data pendaftaran Anda ke dalam sistem basis data." }, { status: 500 });
   }
 }

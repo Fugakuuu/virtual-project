@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const { email } = await req.json();
 
     if (!email) {
-      return NextResponse.json({ error: "Email is required" }, { status: 400 });
+      return NextResponse.json({ error: "Harap masukkan alamat email terlebih dahulu." }, { status: 400 });
     }
 
     const user = await prisma.user.findUnique({
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Check email error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Gagal memverifikasi email karena sistem database sedang tidak merespons." }, { status: 500 });
   }
 }
 
